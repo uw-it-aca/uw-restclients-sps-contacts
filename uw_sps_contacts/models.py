@@ -11,16 +11,18 @@ class EmergencyContacts(models.Model):
     last_modified = DateTimeField()  # reflects lastModified in SPS API?
 
     def from_json(data):
-        contact = EmergencyContacts()
-        for datum in data[0]:  # TODO: how to handle the list of contacts?
+        contacts = []
+        for datum in data[0]:  # data[0] is assumed to be a list of contact dicts
+            contact = EmergencyContacts()
             contact.syskey = datum['syskey']
             contact.name = datum['name']
             contact.phone_number = datum['phoneNumber']
             contact.email = datum['email']
             contact.relationship = datum['relationship']
             contact.last_modified = datum['lastModified']
+            contacts.append(contact)
 
-        return contact
+        return contacts
 
     def json_data(self):
         return {
