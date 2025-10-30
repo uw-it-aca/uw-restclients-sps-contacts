@@ -8,19 +8,19 @@ class EmergencyContacts(models.Model):
     phone_number = models.CharField(max_length=20)
     email = models.CharField(max_length=60)
     relationship = models.CharField()
-    last_modified = DateTimeField()  # reflects lastModified in SPS API?
+    last_modified = models.DateTimeField()  # reflects lastModified in SPS API?
 
     @staticmethod
     def from_json(data):
         contacts = []
-        for datum in data[0]:  # data[0] is assumed to be a list of contact dicts
+        for datum in data:  # data is assumed to be a list of contact dicts
             contact = EmergencyContacts()
-            contact.syskey = datum['syskey']
-            contact.name = datum['name']
-            contact.phone_number = datum['phoneNumber']
-            contact.email = datum['email']
-            contact.relationship = datum['relationship']
-            contact.last_modified = datum['lastModified']
+            contact.syskey = datum["syskey"]
+            contact.name = datum["name"]
+            contact.phone_number = datum["phoneNumber"]
+            contact.email = datum["email"]
+            contact.relationship = datum["relationship"]
+            contact.last_modified = datum["lastModified"]
             contacts.append(contact)
 
         return contacts

@@ -4,12 +4,14 @@ This is the interface for interacting with the Student Contacts Web Service.
 
 import logging
 import json
+from commonconf import settings
 from uw_sps_contacts.dao import Contacts_DAO
 from restclients_core.exceptions import DataFailureException
 
 logger = logging.getLogger(__name__)
 
 
+settings.configure()
 ContactsDao = Contacts_DAO()
 
 

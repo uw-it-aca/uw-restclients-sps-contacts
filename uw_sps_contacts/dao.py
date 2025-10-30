@@ -7,6 +7,7 @@ import os
 
 
 class Contacts_DAO(DAO):
+
     def service_name(self):
         return 'sps_contacts'
 
