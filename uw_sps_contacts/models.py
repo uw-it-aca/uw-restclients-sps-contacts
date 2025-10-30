@@ -7,10 +7,20 @@ class EmergencyContacts(models.Model):
     name = models.CharField(max_length=150)
     phone_number = models.CharField(max_length=20)
     email = models.CharField(max_length=60)
-    relationship = (
-        models.PositiveSmallIntegerField()
-    )  # looks like it needs has_choices=True
+    relationship = models.CharField()
     last_modified = DateTimeField()  # reflects lastModified in SPS API?
+
+    def from_json(data):
+        contact = EmergencyContacts()
+        for datum in data[0]:  # TODO: how to handle the list of contacts?
+            contact.syskey = datum['syskey']
+            contact.name = datum['name']
+            contact.phone_number = datum['phoneNumber']
+            contact.email = datum['email']
+            contact.relationship = datum['relationship']
+            contact.last_modified = datum['lastModified']
+
+        return contact
 
     def json_data(self):
         return {

@@ -6,9 +6,9 @@ from os.path import abspath, dirname
 import os
 
 
-class Contacts_DAO():
+class Contacts_DAO(DAO):
     def service_name(self):
-        return 'sps_student'
+        return 'sps_contacts'
 
     def service_mock_paths(self):
         path = [abspath(os.path.join(dirname(__file__), "resources"))]

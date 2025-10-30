@@ -10,8 +10,11 @@ from restclients_core.exceptions import DataFailureException
 logger = logging.getLogger(__name__)
 
 
+ContactsDao = Contacts_DAO()
+
+
 def get_resource(url, headers={}):
-    response = ContactsDAO().getURL(url, headers)
+    response = ContactsDao.getURL(url, headers)
     logger.info("%s ==status==> %s" % (url, response.status))
 
     if response.status != 200:
