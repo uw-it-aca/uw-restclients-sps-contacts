@@ -10,6 +10,7 @@ class EmergencyContacts(models.Model):
     relationship = models.CharField()
     last_modified = DateTimeField()  # reflects lastModified in SPS API?
 
+    @staticmethod
     def from_json(data):
         contacts = []
         for datum in data[0]:  # data[0] is assumed to be a list of contact dicts
