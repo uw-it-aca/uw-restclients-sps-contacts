@@ -13,7 +13,9 @@ logger = logging.getLogger(__name__)
 ContactsDao = Contacts_DAO()
 
 
-def get_resource(url, headers={}):
+def get_resource(url, headers=None):
+    if headers is None:
+        headers = {}
     response = ContactsDao.getURL(url, headers)
     logger.info("%s ==status==> %s" % (url, response.status))
 
