@@ -20,4 +20,4 @@ def get_emergency_contacts(syskey, act_as=None):
         headers["X-UW-Act-as"] = act_as
 
     response = get_resource(url, headers)
-    return EmergencyContacts.from_json(url, response)
+    return EmergencyContacts.from_json(response)
