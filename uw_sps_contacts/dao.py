@@ -1,10 +1,12 @@
 """
 Contains UW Student Contacts DAO implementations.
 """
-from restclients_core.dao import DAO
+import json
 import logging
-from os.path import abspath, dirname
 import os
+from os.path import abspath, dirname
+from restclients_core.dao import DAO
+from restclients_core.exceptions import DataFailureException
 
 logger = logging.getLogger(__name__)
 sps_contacts_access_token_url = "/oauth2/token"
