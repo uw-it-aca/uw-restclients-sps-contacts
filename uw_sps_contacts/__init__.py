@@ -10,7 +10,6 @@ import logging
 
 
 settings.configure()
-#ContactsDao = Contacts_DAO()
 
 
 class ContactsList(object):
