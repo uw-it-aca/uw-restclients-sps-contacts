@@ -40,7 +40,8 @@ class ContactsList(object):
             self._get_contacts_url(syskey), response.status, str(response.data))
 
     def _process_data(self, jdata):
-        print(jdata)  # Implement!!!
+        # TODO: Implement any necessary data transformation here.
+        return jdata
 
 #def get_resource(url, headers=None):
 #    if headers is None:
