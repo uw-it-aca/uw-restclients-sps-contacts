@@ -29,7 +29,7 @@ class Contacts_Auth_DAO(DAO):
                    "Content-type": "application/x-www-form-urlencoded"}
 
         response = self.postURL(
-            sps_contacts_access_token_url, headers, "grant_type=client-credentials")
+            sps_contacts_access_token_url, headers, "grant_type=client_credentials")
         if response.status != 200:
             logger.error(
                 {'url': sps_contacts_access_token_url,
