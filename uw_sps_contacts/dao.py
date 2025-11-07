@@ -16,7 +16,7 @@ sps_contacts_access_token_url = "/oauth2/token"
 
 class Contacts_Auth_DAO(DAO):
     def service_name(self):
-        return 'sps_contacts_auth'
+        return "sps_contacts_auth"
 
     def _is_cacheable(self, method, url, headers, body=None):
         return True
@@ -25,18 +25,27 @@ class Contacts_Auth_DAO(DAO):
         self.clear_cached_response(sps_contacts_access_token_url)
 
     def get_auth_token(self, secret):
-        headers = {"Authorization": "Basic {}".format(secret),
-                   "Content-type": "application/x-www-form-urlencoded"}
+        headers = {
+            "Authorization": "Basic {}".format(secret),
+            "Content-type": "application/x-www-form-urlencoded",
+        }
 
         response = self.postURL(
-            sps_contacts_access_token_url, headers, "grant_type=client_credentials")
+            sps_contacts_access_token_url,
+            headers,
+            "grant_type=client_credentials",
+        )
         if response.status != 200:
             logger.error(
-                {'url': sps_contacts_access_token_url,
-                 'status': response.status,
-                 'data': response.data})
+                {
+                    "url": sps_contacts_access_token_url,
+                    "status": response.status,
+                    "data": response.data,
+                }
+            )
             raise DataFailureException(
-                sps_contacts_access_token_url, response.status, response.data)
+                sps_contacts_access_token_url, response.status, response.data
+            )
 
         data = json.loads(response.data)
         return data.get("access_token", "")
@@ -47,6 +56,8 @@ class Contacts_Auth_DAO(DAO):
 
     def _edit_mock_response(self, method, url, headers, body, response):
         pass
+
+
 # This is from the myplan restclient, may need something similar for mocks/tests
 #        if response.status == 404 and method != "GET":
 #            alternative_url = "{0}.{1}".format(url, method)
@@ -66,7 +77,7 @@ class Contacts_DAO(DAO):
         return super(Contacts_DAO, self).__init__()
 
     def service_name(self):
-        return 'sps_contacts'
+        return "sps_contacts"
 
     def service_mock_paths(self):
         path = [abspath(os.path.join(dirname(__file__), "resources"))]
