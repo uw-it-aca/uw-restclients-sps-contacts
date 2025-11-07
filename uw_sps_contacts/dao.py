@@ -47,6 +47,7 @@ class Contacts_Auth_DAO(DAO):
 
     def _edit_mock_response(self, method, url, headers, body, response):
         pass
+# This is from the myplan restclient, may need something similar for mocks/tests
 #        if response.status == 404 and method != "GET":
 #            alternative_url = "{0}.{1}".format(url, method)
 #            backend = self.get_implementation()
@@ -74,7 +75,6 @@ class Contacts_DAO(DAO):
     def _custom_headers(self, method, url, headers, body):
         if not headers:
             headers = {}
-        #import pdb; pdb.set_trace()
         secret = self.get_service_setting("AUTH_SECRET", settings.AUTH_SECRET)
         if secret:
             token = self.auth_dao.get_auth_token(secret)
