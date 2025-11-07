@@ -20,7 +20,7 @@ class ContactsList(object):
     def _get_contacts_url(self, syskey):
         return f"/contacts/v1/emergencyContacts/{syskey}"
 
-    def _get_resource(self, syskey, clear_cached_token=False):
+    def _get_resource(self, syskey, clear_cached_token=True):  # return to False after debugging
         if clear_cached_token:
             self.dao.getURL(
                 self._get_contacts_url(syskey), {"Accept": "application/json"})
