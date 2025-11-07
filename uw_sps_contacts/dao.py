@@ -47,7 +47,7 @@ class Contacts_Auth_DAO(DAO):
 class Contacts_DAO(DAO):
     def __init__(self):
         self.auth_dao = Contacts_Auth_DAO()
-        return super(Contacts_Auth_DAO, self).__init__()
+        return super(Contacts_DAO, self).__init__()
 
     def service_name(self):
         return 'sps_contacts'
