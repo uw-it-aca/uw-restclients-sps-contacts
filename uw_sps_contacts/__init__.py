@@ -6,13 +6,9 @@ This is the interface for interacting with the Student Contacts Web Service.
 """
 
 import json
-from commonconf import settings
 from uw_sps_contacts.dao import Contacts_DAO
 from restclients_core.exceptions import DataFailureException
 import logging
-
-
-settings.configure()
 
 
 class ContactsList(object):
