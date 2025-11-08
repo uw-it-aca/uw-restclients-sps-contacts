@@ -19,7 +19,7 @@ class ContactsList(object):
     def _get_contacts_url(self, syskey):
         return f"/contacts/v1/emergencyContacts/{syskey}"
 
-    def _get_resource(self, syskey, clear_cached_token=True):  # return to False after debugging
+    def _get_resource(self, syskey, clear_cached_token=False):
         if clear_cached_token:
             self.dao.getURL(
                 self._get_contacts_url(syskey), {"Accept": "application/json"})
@@ -36,13 +36,14 @@ class ContactsList(object):
                 return self._process_data(json.loads(response.data))
 
         raise DataFailureException(
-            self._get_contacts_url(syskey), response.status, str(response.data))
+            self._get_contacts_url(syskey), response.status,
+            str(response.data))
 
     def _process_data(self, jdata):
         # TODO: Implement any necessary data transformation here.
         return jdata
 
-#def get_resource(url, headers=None):
+# def get_resource(url, headers=None):
 #    if headers is None:
 #        headers = {}
 #    response = ContactsDao.getURL(url, headers)
