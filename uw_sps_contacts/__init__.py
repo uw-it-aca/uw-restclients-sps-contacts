@@ -1,3 +1,6 @@
+# Copyright 2025 UW-IT, University of Washington
+# SPDX-License-Identifier: Apache-2.0
+
 """
 This is the interface for interacting with the Student Contacts Web Service.
 """
