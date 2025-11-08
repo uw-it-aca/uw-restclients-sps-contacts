@@ -87,3 +87,6 @@ class Contacts_DAO(DAO):
             token = self.auth_dao.get_auth_token(secret)
             headers["Authorization"] = f"Bearer {token}"
         return headers
+
+    def clear_access_token(self):
+        self.auth_dao.clear_token_from_cache()
