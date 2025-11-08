@@ -1,15 +1,14 @@
+# Copyright 2025 UW-IT, University of Washington
+# SPDX-License-Identifier: Apache-2.0
+
 """
 This is the interface for interacting with the Student Contacts Web Service.
 """
 
 import json
-from commonconf import settings
 from uw_sps_contacts.dao import Contacts_DAO
 from restclients_core.exceptions import DataFailureException
 import logging
-
-
-settings.configure()
 
 
 class ContactsList(object):
@@ -19,9 +18,7 @@ class ContactsList(object):
     def _get_contacts_url(self, syskey):
         return f"/contacts/v1/emergencyContacts/{syskey}"
 
-    def _get_resource(
-        self, syskey, clear_cached_token=True
-    ):  # return to False after debugging
+    def _get_resource(self, syskey, clear_cached_token=False):
         if clear_cached_token:
             self.dao.clear_access_token()
         return self.dao.getURL(
@@ -40,13 +37,12 @@ class ContactsList(object):
                 return self._process_data(json.loads(response.data))
 
         raise DataFailureException(
-            self._get_contacts_url(syskey), response.status, str(response.data)
-        )
+            self._get_contacts_url(syskey), response.status,
+            str(response.data))
 
     def _process_data(self, jdata):
         # TODO: Implement any necessary data transformation here.
         return jdata
-
 
 # def get_resource(url, headers=None):
 #    if headers is None:
