@@ -86,7 +86,7 @@ class Contacts_DAO(DAO):
         if not headers:
             headers = {}
         secret = self.get_service_setting(
-            "RESTCLIENTS_SPS_CONTACTS_AUTH_SECRET", ""
+            "AUTH_SECRET", ""
         )
         if secret:
             token = self.auth_dao.get_auth_token(secret)
