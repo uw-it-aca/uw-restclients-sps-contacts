@@ -3,6 +3,7 @@
 
 from unittest import TestCase
 import mock
+from commonconf import override_settings
 from restclients_core.exceptions import DataFailureException
 from restclients_core.models import MockHTTP
 from uw_sps_contacts.dao import Contacts_Auth_DAO, Contacts_DAO
@@ -35,3 +36,10 @@ class TestSpsAuth(TestCase):
     def test_no_auth_header(self):
         headers = Contacts_DAO()._custom_headers("GET", "/", {}, "")
         self.assertFalse("Authorization" in headers)
+
+    @override_settings(RESTCLIENTS_SPS_CONTACTS_AUTH_SECRET="test1")
+    @mock.patch.object(Contacts_Auth_DAO, "get_auth_token")
+    def test_auth_header(self, mock_get_auth_token):
+        mock_get_auth_token.return_value = "abcdef"
+        headers = Contacts_DAO()._custom_headers("GET", "/", {}, "")
+        self.assertTrue("Authorization" in headers)
