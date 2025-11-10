@@ -37,7 +37,7 @@ class ContactsList(object):
                 return self._process_data(json.loads(response.data))
 
         raise DataFailureException(
-            self._get_contacts_url(syskey), response.status,
+            self._get_emergency_contacts_url(syskey), response.status,
             str(response.data))
 
     def _process_data(self, jdata):
