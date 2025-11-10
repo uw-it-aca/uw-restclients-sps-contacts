@@ -2,38 +2,42 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from restclients_core import models
+import dateutil.parser
 
 
-# TODO: This may become a single contact
-class EmergencyContacts(models.Model):
-    syskey = models.PositiveIntegerField()
+class EmergencyContact(models.Model):
+    index = models.PositiveIntegerField()
+    syskey = models.CharField(max_length=9)
     name = models.CharField(max_length=150)
-    phone_number = models.CharField(max_length=20)
+    phone = models.CharField(max_length=20)
     email = models.CharField(max_length=60)
     relationship = models.CharField()
-    last_modified = models.DateTimeField()  # reflects lastModified in SPS API?
+    last_modified = models.DateTimeField(null=True)
 
-    @staticmethod
-    def from_json(data):
-        contacts = []
-        for datum in data:  # data is assumed to be a list of contact dicts
-            contact = EmergencyContacts()
-            contact.syskey = datum["syskey"]
-            contact.name = datum["name"]
-            contact.phone_number = datum["phoneNumber"]
-            contact.email = datum["email"]
-            contact.relationship = datum["relationship"]
-            contact.last_modified = datum["lastModified"]
-            contacts.append(contact)
+    def __init__(self, *args, **kwargs):
+        data = kwargs.get("data")
+        if data is None:
+            return super().__init__(*args, **kwargs)
 
-        return contacts
+        self.index = data["index"]
+        self.syskey = data["syskey"]
+        self.name = data["name"]
+        self.phone = data["phone_number"]
+        self.email = data["email"]
+        self.relationship = data["relationship"]
+        try:
+            self.last_modified = dateutil.parser.parse(data["last_modified"])
+        except Exception:
+            self.last_modified = None
 
     def json_data(self):
         return {
+            "index": self.index,
             "syskey": self.syskey,
             "name": self.name,
-            "phone_number": self.phone_number,
+            "phone": self.phone,
             "email": self.email,
             "relationship": self.relationship,
-            "last_modified": self.last_modified,  # lastModified in SPS API?
+            "last_modified": self.last_modified.isoformat() if (
+                self.last_modified is not None) else None,
         }
