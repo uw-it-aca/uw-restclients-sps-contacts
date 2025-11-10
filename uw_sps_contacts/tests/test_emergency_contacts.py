@@ -30,3 +30,6 @@ class ContactsListTest(TestCase):
         contactslist = ContactsList()
         contacts = contactslist.get_contacts(12345)
         self.assertEqual(len(contacts), 1)
+
+        resp = contactslist._get_resource(12345, clear_cached_token=True)
+        self.assertIsNotNone(resp)
