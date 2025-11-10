@@ -33,3 +33,6 @@ class ContactsListTest(TestCase):
 
         resp = contactslist._get_resource(12345, clear_cached_token=True)
         self.assertIsNotNone(resp)
+
+    def test_json(self):
+        pass
