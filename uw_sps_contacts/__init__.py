@@ -15,7 +15,7 @@ class ContactsList(object):
     def __init__(self, act_as=None):
         self.dao = Contacts_DAO()
 
-    def _get_contacts_url(self, syskey):
+    def _get_emergency_contacts_url(self, syskey):
         return f"/contacts/v1/emergencyContacts/{syskey}"
 
     def _get_resource(self, syskey, clear_cached_token=False):
