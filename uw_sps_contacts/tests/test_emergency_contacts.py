@@ -2,8 +2,14 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from unittest import TestCase
+from uw_sps_contacts import ContactsList
 
 
-class TestEmergencyContacts(TestCase):
-    def test_passing_test(self):
-        self.assertEqual(4, 2+2)
+class ContactsListTest(TestCase):
+
+    def test_emergency_contacts_url(self):
+        contacts = ContactsList()
+        self.assertEqual(
+            "/contacts/v1/emergencyContacts/12345",
+            contacts._get_emergency_contacts_url(12345)
+        )
