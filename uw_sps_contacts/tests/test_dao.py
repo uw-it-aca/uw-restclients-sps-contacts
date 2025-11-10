@@ -2,6 +2,9 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from unittest import TestCase
+import mock
+from restclients_core.exceptions import DataFailureException
+from restclients_core.models import MockHTTP
 from uw_sps_contacts.dao import Contacts_Auth_DAO
 from uw_sps_contacts.utils import (
     fdao_sps_contacts_override, fdao_sps_contacts_auth_override)
@@ -18,3 +21,13 @@ class TestSpsAuth(TestCase):
     def test_get_auth_token(self):
         self.assertIsNotNone(
             Contacts_Auth_DAO().get_auth_token("test1"))
+
+    @mock.patch.object(Contacts_Auth_DAO, "postURL")
+    def test_get_auth_token_error(self, mock):
+        response = MockHTTP()
+        response.status = 404
+        response.data = "Not Found"
+        mock.return_value = response
+        self.assertRaises(
+            DataFailureException,
+            Contacts_Auth_DAO().get_auth_token, "test1")
