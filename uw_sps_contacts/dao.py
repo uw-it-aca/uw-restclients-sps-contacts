@@ -62,9 +62,12 @@ class Contacts_Auth_DAO(DAO):
             response.status = new_resp.status
             response.data = new_resp.data
             logger.debug(
-                {'url': alternative_url,
-                 'status': response.status,
-                 'data': response.data})
+                {
+                    "url": alternative_url,
+                    "status": response.status,
+                    "data": response.data,
+                }
+            )
 
 
 class Contacts_DAO(DAO):
@@ -82,7 +85,9 @@ class Contacts_DAO(DAO):
     def _custom_headers(self, method, url, headers, body):
         if not headers:
             headers = {}
-        secret = self.get_service_setting("AUTH_SECRET", settings.AUTH_SECRET)
+        secret = self.get_service_setting(
+            "RESTCLIENTS_SPS_CONTACTS_AUTH_SECRET", ""
+        )
         if secret:
             token = self.auth_dao.get_auth_token(secret)
             headers["Authorization"] = f"Bearer {token}"

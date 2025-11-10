@@ -5,7 +5,7 @@ from unittest import TestCase
 import mock
 from restclients_core.exceptions import DataFailureException
 from restclients_core.models import MockHTTP
-from uw_sps_contacts.dao import Contacts_Auth_DAO
+from uw_sps_contacts.dao import Contacts_Auth_DAO, Contacts_DAO
 from uw_sps_contacts.utils import (
     fdao_sps_contacts_override, fdao_sps_contacts_auth_override)
 
@@ -31,3 +31,7 @@ class TestSpsAuth(TestCase):
         self.assertRaises(
             DataFailureException,
             Contacts_Auth_DAO().get_auth_token, "test1")
+
+    def test_no_auth_header(self):
+        headers = Contacts_DAO()._custom_headers("GET", "/", {}, "")
+        self.assertFalse("Authorization" in headers)
