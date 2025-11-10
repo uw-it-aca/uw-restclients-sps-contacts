@@ -14,7 +14,7 @@ class ContactsListTest(TestCase):
         contacts = ContactsList()
         self.assertEqual(
             "/contacts/v1/emergencyContacts/12345",
-            contacts._get_emergency_contacts_url(12345)
+            contacts._get_contacts_url(12345)
         )
 
     @mock.patch.object(ContactsList, "_get_resource")
@@ -25,3 +25,8 @@ class ContactsListTest(TestCase):
         mock.return_value = response
         with self.assertRaises(DataFailureException):
             ContactsList().get_contacts(12345)
+
+    def test_contacts_for_javerage(self):
+        contactslist = ContactsList()
+        contacts = contactslist.get_contacts(12345)
+        self.assertEqual(len(contacts), 1)
