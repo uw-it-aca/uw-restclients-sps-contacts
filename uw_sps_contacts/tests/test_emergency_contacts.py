@@ -39,7 +39,6 @@ class ContactsListTest(TestCase):
         contacts = contactslist.get_contacts(12345)
         # should be a list of models
         self.assertEqual(type([]), type(contacts))
-        # import pdb; pdb.set_trace()
         self.assertEqual(12345, contacts[0].syskey)
         self.assertEqual("John Doe", contacts[0].name)
         self.assertEqual("5551234567", contacts[0].phone)
