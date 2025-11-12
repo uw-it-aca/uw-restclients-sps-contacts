@@ -50,7 +50,7 @@ class ContactsList(object):
             # import pdb; pdb.set_trace()
             em_contact.syskey = i.get("syskey")
             em_contact.name = i.get("name")
-            em_contact.phone = i.get("phone_number")
+            em_contact.phone = i.get("phoneNumber")
             em_contact.email = i.get("email")
             em_contact.relationship = i.get("relationship")
             em_contact.last_modified = i.get("last_modified")

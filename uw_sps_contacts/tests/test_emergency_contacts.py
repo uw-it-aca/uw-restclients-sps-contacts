@@ -42,7 +42,7 @@ class ContactsListTest(TestCase):
         # import pdb; pdb.set_trace()
         self.assertEqual(12345, contacts[0].syskey)
         self.assertEqual("John Doe", contacts[0].name)
-        # self.assertEqual("5551234567", contacts[0].phone)
+        self.assertEqual("5551234567", contacts[0].phone)
         self.assertEqual("foo@gmail.com", contacts[0].email)
         self.assertEqual("GUARDIAN", contacts[0].relationship)
         # last_modified assertion here
