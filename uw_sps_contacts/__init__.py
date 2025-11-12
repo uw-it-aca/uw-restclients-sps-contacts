@@ -44,9 +44,9 @@ class ContactsList(object):
     def _process_data(self, jdata):
         # TODO: Implement any necessary data transformation here.
         data = []
-        for i in jdata:
+        for idx, i in enumerate(jdata, start=1):
             em_contact = EmergencyContact()
-            em_contact.index = 1  # add a counter later
+            em_contact.index = idx
             em_contact.syskey = i.get("syskey")
             em_contact.name = i.get("name")
             em_contact.phone = i.get("phoneNumber")
