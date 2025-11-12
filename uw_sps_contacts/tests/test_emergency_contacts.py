@@ -29,7 +29,7 @@ class ContactsListTest(TestCase):
     def test_contacts_for_javerage(self):
         contactslist = ContactsList()
         contacts = contactslist.get_contacts(12345)
-        self.assertEqual(len(contacts), 1)
+        self.assertEqual(len(contacts), 2)
 
         resp = contactslist._get_resource(12345, clear_cached_token=True)
         self.assertIsNotNone(resp)
@@ -43,6 +43,6 @@ class ContactsListTest(TestCase):
         self.assertEqual(12345, contacts[0].syskey)
         self.assertEqual("John Doe", contacts[0].name)
         self.assertEqual("5551234567", contacts[0].phone)
-        self.assertEqual("foo@gmail.com", contacts[0].email)
-        self.assertEqual("GUARDIAN", contacts[0].relationship)
+        self.assertEqual("foo@example.com", contacts[0].email)
+        self.assertEqual("PARENT", contacts[0].relationship)
         # last_modified assertion here
