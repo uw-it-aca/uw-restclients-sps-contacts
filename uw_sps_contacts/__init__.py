@@ -52,7 +52,7 @@ class ContactsList(object):
             em_contact.phone = i.get("phoneNumber")
             em_contact.email = i.get("email")
             em_contact.relationship = i.get("relationship")
-            em_contact.last_modified = i.get("last_modified")
+            em_contact.last_modified = i.get("lastModified")
             data.append(em_contact)
 
         return data
