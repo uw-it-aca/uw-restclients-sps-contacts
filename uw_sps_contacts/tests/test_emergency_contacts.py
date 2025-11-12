@@ -50,5 +50,5 @@ class ContactsListTest(TestCase):
         self.assertEqual("Jane Doe", contacts[1].name)
         self.assertEqual("5557654321", contacts[1].phone)
         self.assertEqual("bar@example.com", contacts[1].email)
-        self.assertEqual("PARENT", contacts[0].relationship)
+        self.assertEqual("PARENT", contacts[1].relationship)
         # last_modified assertion here
