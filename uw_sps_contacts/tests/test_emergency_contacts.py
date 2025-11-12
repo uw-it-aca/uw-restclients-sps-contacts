@@ -14,7 +14,7 @@ class ContactsListTest(TestCase):
         contacts = ContactsList()
         self.assertEqual(
             "/contacts/v1/emergencyContacts/12345",
-            contacts._get_contacts_url(12345)
+            contacts._get_contacts_url(12345),
         )
 
     @mock.patch.object(ContactsList, "_get_resource")
@@ -35,4 +35,14 @@ class ContactsListTest(TestCase):
         self.assertIsNotNone(resp)
 
     def test_json(self):
-        pass
+        contactslist = ContactsList()
+        contacts = contactslist.get_contacts(12345)
+        # should be a list of models
+        self.assertEqual(type([]), type(contacts))
+        # import pdb; pdb.set_trace()
+        self.assertEqual(12345, contacts[0].syskey)
+        self.assertEqual("John Doe", contacts[0].name)
+        # self.assertEqual("5551234567", contacts[0].phone)
+        self.assertEqual("foo@gmail.com", contacts[0].email)
+        self.assertEqual("GUARDIAN", contacts[0].relationship)
+        # last_modified assertion here
