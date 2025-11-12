@@ -47,7 +47,6 @@ class ContactsList(object):
         for i in jdata:
             em_contact = EmergencyContact()
             em_contact.index = 1  # add a counter later
-            # import pdb; pdb.set_trace()
             em_contact.syskey = i.get("syskey")
             em_contact.name = i.get("name")
             em_contact.phone = i.get("phoneNumber")
