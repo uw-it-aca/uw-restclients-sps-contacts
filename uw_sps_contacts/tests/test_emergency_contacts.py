@@ -31,12 +31,6 @@ class ContactsListTest(TestCase):
         contacts = contactslist.get_contacts(12345)
         self.assertEqual(len(contacts), 2)
 
-        resp = contactslist._get_resource(12345, clear_cached_token=True)
-        self.assertIsNotNone(resp)
-
-    def test_json(self):
-        contactslist = ContactsList()
-        contacts = contactslist.get_contacts(12345)
         # should be a list of models
         self.assertEqual(type([]), type(contacts))
         self.assertEqual(12345, contacts[0].syskey)
@@ -52,3 +46,10 @@ class ContactsListTest(TestCase):
         self.assertEqual("bar@example.com", contacts[1].email)
         self.assertEqual("PARENT", contacts[1].relationship)
         # last_modified assertion here
+
+        resp = contactslist._get_resource(12345, clear_cached_token=True)
+        self.assertIsNotNone(resp)
+
+    def test_json(self):
+        contactslist = ContactsList()
+        contacts = contactslist.get_contacts(12345)
