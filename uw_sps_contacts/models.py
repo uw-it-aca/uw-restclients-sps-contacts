@@ -24,7 +24,7 @@ class EmergencyContact(models.Model):
         self.email = data["email"]
         self.relationship = data["relationship"]
         try:
-            self.last_modified = datetime.datetime.fromtimestamp(
+            self.last_modified = datetime.datetime.utcfromtimestamp(
                 data["lastModified"]
             )
         except Exception:

@@ -40,7 +40,7 @@ class ContactsListTest(TestCase):
         self.assertEqual("foo@example.com", contacts[0].email)
         self.assertEqual("PARENT", contacts[0].relationship)
         self.assertEqual(
-            datetime.datetime(2025, 11, 11, 13, 28, 40, 180882),
+            datetime.datetime(2025, 11, 11, 21, 28, 40, 180882),
             contacts[0].last_modified,
         )
 
@@ -50,7 +50,7 @@ class ContactsListTest(TestCase):
         self.assertEqual("bar@example.com", contacts[1].email)
         self.assertEqual("PARENT", contacts[1].relationship)
         self.assertEqual(
-            datetime.datetime(2025, 11, 11, 13, 28, 40, 267776),
+            datetime.datetime(2025, 11, 11, 21, 28, 40, 267776),
             contacts[1].last_modified,
         )
 
