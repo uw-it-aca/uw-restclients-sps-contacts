@@ -2,11 +2,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from restclients_core import models
-import dateutil.parser
+import datetime
 
 
 class EmergencyContact(models.Model):
-    index = models.PositiveIntegerField()
     syskey = models.CharField(max_length=9)
     name = models.CharField(max_length=150)
     phone = models.CharField(max_length=20)
@@ -19,25 +18,28 @@ class EmergencyContact(models.Model):
         if data is None:
             return super().__init__(*args, **kwargs)
 
-        self.index = data["index"]
         self.syskey = data["syskey"]
         self.name = data["name"]
-        self.phone = data["phone_number"]
+        self.phone = data["phoneNumber"]
         self.email = data["email"]
         self.relationship = data["relationship"]
         try:
-            self.last_modified = dateutil.parser.parse(data["last_modified"])
+            self.last_modified = datetime.datetime.fromtimestamp(
+                data["lastModified"]
+            )
         except Exception:
             self.last_modified = None
 
     def json_data(self):
         return {
-            "index": self.index,
             "syskey": self.syskey,
             "name": self.name,
             "phone": self.phone,
             "email": self.email,
             "relationship": self.relationship,
-            "last_modified": self.last_modified.isoformat() if (
-                self.last_modified is not None) else None,
+            "last_modified": (
+                self.last_modified.isoformat()
+                if (self.last_modified is not None)
+                else None
+            ),
         }

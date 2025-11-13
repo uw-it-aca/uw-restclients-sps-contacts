@@ -42,17 +42,9 @@ class ContactsList(object):
         )
 
     def _process_data(self, jdata):
-        # TODO: Implement any necessary data transformation here.
         data = []
-        for idx, i in enumerate(jdata, start=1):
-            em_contact = EmergencyContact()
-            em_contact.index = idx
-            em_contact.syskey = i.get("syskey")
-            em_contact.name = i.get("name")
-            em_contact.phone = i.get("phoneNumber")
-            em_contact.email = i.get("email")
-            em_contact.relationship = i.get("relationship")
-            em_contact.last_modified = i.get("lastModified")
+        for i in jdata:
+            em_contact = EmergencyContact(data=i)
             data.append(em_contact)
 
         return data

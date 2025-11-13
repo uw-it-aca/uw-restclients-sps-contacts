@@ -3,6 +3,7 @@
 
 from unittest import TestCase
 import mock
+import datetime
 from restclients_core.models import MockHTTP
 from restclients_core.exceptions import DataFailureException
 from uw_sps_contacts import ContactsList
@@ -39,6 +40,10 @@ class ContactsListTest(TestCase):
         self.assertEqual("foo@example.com", contacts[0].email)
         self.assertEqual("PARENT", contacts[0].relationship)
         # last_modified assertion here
+        self.assertEqual(
+            datetime.datetime(2025, 11, 11, 13, 28, 40, 180882),
+            contacts[0].last_modified,
+        )
 
         self.assertEqual(12345, contacts[1].syskey)
         self.assertEqual("Jane Doe", contacts[1].name)
@@ -46,6 +51,10 @@ class ContactsListTest(TestCase):
         self.assertEqual("bar@example.com", contacts[1].email)
         self.assertEqual("PARENT", contacts[1].relationship)
         # last_modified assertion here
+        self.assertEqual(
+            datetime.datetime(2025, 11, 11, 13, 28, 40, 267776),
+            contacts[1].last_modified,
+        )
 
         resp = contactslist._get_resource(12345, clear_cached_token=True)
         self.assertIsNotNone(resp)
