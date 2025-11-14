@@ -1,11 +1,12 @@
 # Copyright 2025 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
-from unittest import TestCase
+import json
 import mock
 import datetime
-from restclients_core.models import MockHTTP
+from unittest import TestCase
 from restclients_core.exceptions import DataFailureException
+from restclients_core.models import MockHTTP
 from uw_sps_contacts import ContactsList
 from uw_sps_contacts.models import EmergencyContact
 
@@ -74,3 +75,11 @@ class ContactsListTest(TestCase):
         contact.relationship = "SIBLING"
 
         self.assertEqual(type({}), type(contact.json_data()))
+        string_data = ('{"id": "totally-fake-id-1", '
+                       '"syskey": 0, '
+                       '"name": "Jeremiah Doe", '
+                       '"phoneNumber": "+442079460000", '
+                       '"email": "oof@example.com", '
+                       '"relationship": "SIBLING", '
+                       '"lastModified": null}')
+        self.assertEqual(json.dumps(contact.json_data()), string_data)
