@@ -1,23 +1,48 @@
+# Copyright 2025 UW-IT, University of Washington
+# SPDX-License-Identifier: Apache-2.0
+
 from restclients_core import models
+import datetime
 
 
-# TODO: This may become a single contact
-class EmergencyContacts(models.Model):
-    syskey = models.PositiveIntegerField()
+class EmergencyContact(models.Model):
+    id = models.CharField(max_length=255)  # not sure what the max actually is
+    syskey = models.CharField(max_length=9)
     name = models.CharField(max_length=150)
-    phone_number = models.CharField(max_length=20)
+    phoneNumber = models.CharField(max_length=20)
     email = models.CharField(max_length=60)
-    relationship = (
-        models.PositiveSmallIntegerField()
-    )  # looks like it needs has_choices=True
-    last_modified = DateTimeField()  # reflects lastModified in SPS API?
+    relationship = models.CharField()
+    lastModified = models.DateTimeField(null=True)
+
+    def __init__(self, *args, **kwargs):
+        data = kwargs.get("data")
+        if data is None:
+            return super().__init__(*args, **kwargs)
+
+        self.id = data["id"]
+        self.syskey = data["syskey"]
+        self.name = data["name"]
+        self.phoneNumber = data["phoneNumber"]
+        self.email = data["email"]
+        self.relationship = data["relationship"]
+        try:
+            self.lastModified = datetime.datetime.utcfromtimestamp(
+                data["lastModified"]
+            )
+        except Exception:
+            self.last_modified = None
 
     def json_data(self):
         return {
+            "id": self.id,
             "syskey": self.syskey,
             "name": self.name,
-            "phone_number": self.phone_number,
+            "phoneNumber": self.phone,
             "email": self.email,
             "relationship": self.relationship,
-            "last_modified": self.last_modified,  # lastModified in SPS API?
+            "lastModified": (
+                self.last_modified.isoformat()
+                if (self.last_modified is not None)
+                else None
+            ),
         }

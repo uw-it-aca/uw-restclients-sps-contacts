@@ -19,10 +19,10 @@ setup(
     name="UW-RestClients-SPS-Contacts",
     version=VERSION,
     packages=["uw_sps_contacts"],
-    author="UW-IT D&A SETS",
+    author="UW-IT Student & Educational Technology Services",
     author_email="aca-it@uw.edu",
     include_package_data=True,
-    install_requires=["simplejson", "UW-RestClients-Core<1.0"],
+    install_requires=["UW-RestClients-Core"],
     license="Apache License, Version 2.0",
     description=(
         "A library for connecting to student contact services at the "
@@ -35,7 +35,5 @@ setup(
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
-        #        'Programming Language :: Python :: 2.7',
-        #        'Programming Language :: Python :: 3.4',
     ],
 )
