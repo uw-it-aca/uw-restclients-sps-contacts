@@ -7,6 +7,7 @@ import datetime
 from restclients_core.models import MockHTTP
 from restclients_core.exceptions import DataFailureException
 from uw_sps_contacts import ContactsList
+from uw_sps_contacts.models import EmergencyContact
 
 
 class ContactsListTest(TestCase):
@@ -64,5 +65,12 @@ class ContactsListTest(TestCase):
         self.assertIsNotNone(resp)
 
     def test_json_data(self):
-        pass
-        # contact = EmergencyContact()
+        contact = EmergencyContact()
+        contact.id = "totally-fake-id-1"
+        contact.syskey = 0
+        contact.name = "Jeremiah Doe"
+        contact.phoneNumber = "+442079460000"
+        contact.email = "oof@example.com"
+        contact.relationship = "SIBLING"
+
+        self.assertEqual(type({}), type(contact.json_data()))

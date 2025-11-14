@@ -30,19 +30,19 @@ class EmergencyContact(models.Model):
                 data["lastModified"]
             )
         except Exception:
-            self.last_modified = None
+            self.lastModified = None
 
     def json_data(self):
         return {
             "id": self.id,
             "syskey": self.syskey,
             "name": self.name,
-            "phoneNumber": self.phone,
+            "phoneNumber": self.phoneNumber,
             "email": self.email,
             "relationship": self.relationship,
             "lastModified": (
-                self.last_modified.isoformat()
-                if (self.last_modified is not None)
+                self.lastModified.isoformat()
+                if (self.lastModified is not None)
                 else None
             ),
         }
