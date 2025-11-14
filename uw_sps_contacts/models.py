@@ -2,42 +2,47 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from restclients_core import models
-import dateutil.parser
+import datetime
 
 
 class EmergencyContact(models.Model):
-    index = models.PositiveIntegerField()
+    id = models.CharField(max_length=255)  # not sure what the max actually is
     syskey = models.CharField(max_length=9)
     name = models.CharField(max_length=150)
-    phone = models.CharField(max_length=20)
+    phoneNumber = models.CharField(max_length=20)
     email = models.CharField(max_length=60)
     relationship = models.CharField()
-    last_modified = models.DateTimeField(null=True)
+    lastModified = models.DateTimeField(null=True)
 
     def __init__(self, *args, **kwargs):
         data = kwargs.get("data")
         if data is None:
             return super().__init__(*args, **kwargs)
 
-        self.index = data["index"]
+        self.id = data["id"]
         self.syskey = data["syskey"]
         self.name = data["name"]
-        self.phone = data["phone_number"]
+        self.phoneNumber = data["phoneNumber"]
         self.email = data["email"]
         self.relationship = data["relationship"]
         try:
-            self.last_modified = dateutil.parser.parse(data["last_modified"])
+            self.lastModified = datetime.datetime.utcfromtimestamp(
+                data["lastModified"]
+            )
         except Exception:
             self.last_modified = None
 
     def json_data(self):
         return {
-            "index": self.index,
+            "id": self.id,
             "syskey": self.syskey,
             "name": self.name,
-            "phone": self.phone,
+            "phoneNumber": self.phone,
             "email": self.email,
             "relationship": self.relationship,
-            "last_modified": self.last_modified.isoformat() if (
-                self.last_modified is not None) else None,
+            "lastModified": (
+                self.last_modified.isoformat()
+                if (self.last_modified is not None)
+                else None
+            ),
         }

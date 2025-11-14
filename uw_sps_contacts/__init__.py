@@ -7,6 +7,7 @@ This is the interface for interacting with the Student Contacts Web Service.
 
 import json
 from uw_sps_contacts.dao import Contacts_DAO
+from uw_sps_contacts.models import EmergencyContact
 from restclients_core.exceptions import DataFailureException
 import logging
 
@@ -37,19 +38,13 @@ class ContactsList(object):
                 return self._process_data(json.loads(response.data))
 
         raise DataFailureException(
-            self._get_contacts_url(syskey), response.status,
-            str(response.data))
+            self._get_contacts_url(syskey), response.status, str(response.data)
+        )
 
     def _process_data(self, jdata):
-        # TODO: Implement any necessary data transformation here.
-        return jdata
+        data = []
+        for i in jdata:
+            em_contact = EmergencyContact(data=i)
+            data.append(em_contact)
 
-# def get_resource(url, headers=None):
-#    if headers is None:
-#        headers = {}
-#    response = ContactsDao.getURL(url, headers)
-#
-#    if response.status != 200:
-#        raise DataFailureException(url, response.status, response.data)
-#
-#    return json.loads(response.data)
+        return data
