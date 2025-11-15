@@ -74,7 +74,7 @@ class ContactsListTest(TestCase):
         contact.email = "oof@example.com"
         contact.relationship = "SIBLING"
 
-        self.assertEqual(type({}), type(contact.json_data()))
+        self.assertIsInstance(contact.json_data(), dict)
         string_data = ('{"id": "totally-fake-id-1", '
                        '"syskey": 0, '
                        '"name": "Jeremiah Doe", '
