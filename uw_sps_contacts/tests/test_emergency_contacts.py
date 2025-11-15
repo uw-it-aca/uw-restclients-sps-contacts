@@ -82,4 +82,4 @@ class ContactsListTest(TestCase):
                        '"email": "oof@example.com", '
                        '"relationship": "SIBLING", '
                        '"lastModified": null}')
-        self.assertEqual(json.dumps(contact.json_data()), string_data)
+        self.assertEqual(contact.json_data(), json.loads(string_data))
