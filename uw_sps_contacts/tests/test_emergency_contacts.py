@@ -1,12 +1,14 @@
 # Copyright 2025 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
-from unittest import TestCase
+import json
 import mock
 import datetime
-from restclients_core.models import MockHTTP
+from unittest import TestCase
 from restclients_core.exceptions import DataFailureException
+from restclients_core.models import MockHTTP
 from uw_sps_contacts import ContactsList
+from uw_sps_contacts.models import EmergencyContact
 
 
 class ContactsListTest(TestCase):
@@ -64,5 +66,20 @@ class ContactsListTest(TestCase):
         self.assertIsNotNone(resp)
 
     def test_json_data(self):
-        pass
-        # contact = EmergencyContact()
+        contact = EmergencyContact()
+        contact.id = "totally-fake-id-1"
+        contact.syskey = 0
+        contact.name = "Jeremiah Doe"
+        contact.phoneNumber = "+442079460000"
+        contact.email = "oof@example.com"
+        contact.relationship = "SIBLING"
+
+        self.assertIsInstance(contact.json_data(), dict)
+        string_data = ('{"id": "totally-fake-id-1", '
+                       '"syskey": 0, '
+                       '"name": "Jeremiah Doe", '
+                       '"phoneNumber": "+442079460000", '
+                       '"email": "oof@example.com", '
+                       '"relationship": "SIBLING", '
+                       '"lastModified": null}')
+        self.assertEqual(contact.json_data(), json.loads(string_data))
