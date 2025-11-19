@@ -44,12 +44,13 @@ class ContactsList(object):
     def put_data(self, eclist):
         data = []
         for contact in eclist:
-            cdict = dict(syskey=contact.syskey,
-                         name=contact.name,
-                         phoneNumber=contact.phoneNumber,
-                         email=contact.email,
-                         relationship=contact.relationship)
-            data.append(cdict)
+            if not contact.is_empty():
+                cdict = dict(syskey=contact.syskey,
+                             name=contact.name,
+                             phoneNumber=contact.phoneNumber,
+                             email=contact.email,
+                             relationship=contact.relationship)
+                data.append(cdict)
 
         return data
 
@@ -67,4 +68,7 @@ class ContactsList(object):
         return data
 
     def _put_resource(self, url, body={}):
-        pass
+        headers = {'Content-Type': 'application/json',
+                   'Accept': 'application/json',
+                   'Connection': 'keep-alive'}
+        return self.dao.putURL(url, headers, body)
