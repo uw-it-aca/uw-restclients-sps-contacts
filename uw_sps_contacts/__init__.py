@@ -41,6 +41,23 @@ class ContactsList(object):
             self._get_contacts_url(syskey), response.status, str(response.data)
         )
 
+    def put_data(self, eclist):
+        data = []
+        for contact in eclist:
+            cdict = dict(syskey=contact.syskey,
+                         name=contact.name,
+                         phoneNumber=contact.phoneNumber,
+                         email=contact.email,
+                         relationship=contact.relationship)
+            data.append(cdict)
+
+        return data
+
+    def put_contacts(self, syskey, eclist):
+        url = self._get_contacts_url(syskey)
+        body = json.dumps(self.put_data(eclist))
+        return self._put_resource(url, body)
+
     def _process_data(self, jdata):
         data = []
         for i in jdata:
@@ -48,3 +65,6 @@ class ContactsList(object):
             data.append(em_contact)
 
         return data
+
+    def _put_resource(self, url, body={}):
+        pass
