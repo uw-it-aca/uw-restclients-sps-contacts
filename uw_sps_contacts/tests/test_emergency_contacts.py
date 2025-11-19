@@ -112,4 +112,16 @@ class ContactsListTest(TestCase):
         )
 
     def test_empty_contact(self):
-        pass
+        string_data = (
+            '{"id": "totally-fake-id-2", '
+            '"syskey": 12345, '
+            '"name": "Jupiter Doe", '
+            '"phoneNumber": "+442079460000", '
+            '"email": "oof@example.com", '
+            '"relationship": "SIBLING", '
+            '"lastModified": null}'
+        )
+        ec1 = EmergencyContact(data=json.loads(string_data))
+        self.assertFalse(ec1.is_empty())
+        ec2 = EmergencyContact()
+        self.assertTrue(ec2.is_empty())
