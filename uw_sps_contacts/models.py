@@ -32,6 +32,16 @@ class EmergencyContact(models.Model):
         except Exception:
             self.lastModified = None
 
+    def is_empty(self):
+        empty = (
+            self.syskey == ""
+            and self.name == ""
+            and self.phoneNumber == ""
+            and self.email == ""
+            and self.relationship == ""
+        )
+        return empty
+
     def json_data(self):
         return {
             "id": self.id,
