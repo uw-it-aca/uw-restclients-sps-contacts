@@ -57,7 +57,14 @@ class ContactsList(object):
     def put_contacts(self, syskey, eclist):
         url = self._get_contacts_url(syskey)
         body = json.dumps(self.put_data(eclist))
-        return self._put_resource(url, body)
+
+        response = self._put_resource(url, body)
+
+        if response.status == 401 or response.status == 403:
+            # clear token cache, retry
+            response = self._put_resource(syskey, clear_cached_token=True)
+            if response.status == 200:
+                return response
 
     def _process_data(self, jdata):
         data = []
@@ -67,7 +74,10 @@ class ContactsList(object):
 
         return data
 
-    def _put_resource(self, url, body={}):
+    def _put_resource(self, url, body={}, clear_cached_token=False):
+        if clear_cached_token:
+            self.dao.clear_access_token()
+
         headers = {'Content-Type': 'application/json',
                    'Accept': 'application/json',
                    'Connection': 'keep-alive'}
