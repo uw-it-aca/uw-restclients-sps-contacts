@@ -125,3 +125,21 @@ class ContactsListTest(TestCase):
         self.assertFalse(ec1.is_empty())
         ec2 = EmergencyContact()
         self.assertTrue(ec2.is_empty())
+
+    def test_put_resource(self):
+        contactslist = ContactsList()
+        eclist = []
+        string_data = (
+            '{"id": "totally-fake-id-2", '
+            '"syskey": 12345, '
+            '"name": "Jupiter Doe", '
+            '"phoneNumber": "+442079460000", '
+            '"email": "oof@example.com", '
+            '"relationship": "SIBLING", '
+            '"lastModified": null}'
+        )
+        ec1 = EmergencyContact(data=json.loads(string_data))
+        ec2 = EmergencyContact()
+        eclist.append(ec1)
+        eclist.append(ec2)
+        contactslist.put_contacts(12345, eclist)
