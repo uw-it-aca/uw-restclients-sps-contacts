@@ -42,17 +42,7 @@ class ContactsList(object):
         )
 
     def put_list(self, eclist):
-        data = []
-        for contact in eclist:
-            if not contact.is_empty():
-                cdict = dict(syskey=contact.syskey,
-                             name=contact.name,
-                             phoneNumber=contact.phoneNumber,
-                             email=contact.email,
-                             relationship=contact.relationship)
-                data.append(cdict)
-
-        return data
+        return [contact.put_data() for contact in eclist if contact.is_empty()]
 
     def put_contacts(self, syskey, eclist):
         url = self._get_contacts_url(syskey)
