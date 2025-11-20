@@ -42,7 +42,9 @@ class ContactsList(object):
         )
 
     def put_list(self, eclist):
-        return [contact.put_data() for contact in eclist if contact.is_empty()]
+        return [
+            contact.put_data() for contact in eclist if not contact.is_empty()
+        ]
 
     def put_contacts(self, syskey, eclist):
         url = self._get_contacts_url(syskey)
@@ -68,7 +70,9 @@ class ContactsList(object):
         if clear_cached_token:
             self.dao.clear_access_token()
 
-        headers = {'Content-Type': 'application/json',
-                   'Accept': 'application/json',
-                   'Connection': 'keep-alive'}
+        headers = {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Connection": "keep-alive",
+        }
         return self.dao.putURL(url, headers, body)
