@@ -54,7 +54,7 @@ class ContactsList(object):
 
         if response.status == 401 or response.status == 403:
             # clear token cache, retry
-            response = self._put_resource(syskey, clear_cached_token=True)
+            response = self._put_resource(url, body, clear_cached_token=True)
             if response.status == 200:
                 return response
 
