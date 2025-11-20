@@ -110,7 +110,7 @@ class ContactsListTest(TestCase):
 
         mock_update.assert_called_with(
             "/contacts/v1/emergencyContacts/12345",
-            json.dumps(contactslist.put_data(eclist)),
+            json.dumps(contactslist.put_list(eclist)),
         )
 
     def test_empty_contact(self):

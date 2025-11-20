@@ -56,3 +56,6 @@ class EmergencyContact(models.Model):
                 else None
             ),
         }
+
+    def put_data(self):
+        pass
