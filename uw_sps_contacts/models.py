@@ -58,4 +58,8 @@ class EmergencyContact(models.Model):
         }
 
     def put_data(self):
-        pass
+        return dict(syskey=self.syskey,
+                    name=self.name,
+                    phoneNumber=self.phoneNumber,
+                    email=self.email,
+                    relationship=self.relationship)
