@@ -41,7 +41,7 @@ class ContactsList(object):
             self._get_contacts_url(syskey), response.status, str(response.data)
         )
 
-    def put_data(self, eclist):
+    def put_list(self, eclist):
         data = []
         for contact in eclist:
             if not contact.is_empty():
@@ -56,7 +56,7 @@ class ContactsList(object):
 
     def put_contacts(self, syskey, eclist):
         url = self._get_contacts_url(syskey)
-        body = json.dumps(self.put_data(eclist))
+        body = json.dumps(self.put_list(eclist))
 
         response = self._put_resource(url, body)
 
