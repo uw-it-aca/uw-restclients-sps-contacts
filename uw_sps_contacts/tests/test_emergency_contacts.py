@@ -4,7 +4,7 @@
 import json
 import mock
 import datetime
-from unittest import TestCase, skip
+from unittest import TestCase
 from restclients_core.exceptions import DataFailureException
 from restclients_core.models import MockHTTP
 from uw_sps_contacts import ContactsList
