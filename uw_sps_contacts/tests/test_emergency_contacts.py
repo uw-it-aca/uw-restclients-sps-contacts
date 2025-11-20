@@ -75,11 +75,55 @@ class ContactsListTest(TestCase):
         contact.relationship = "SIBLING"
 
         self.assertIsInstance(contact.json_data(), dict)
-        string_data = ('{"id": "totally-fake-id-1", '
-                       '"syskey": 0, '
-                       '"name": "Jeremiah Doe", '
-                       '"phoneNumber": "+442079460000", '
-                       '"email": "oof@example.com", '
-                       '"relationship": "SIBLING", '
-                       '"lastModified": null}')
+        string_data = (
+            '{"id": "totally-fake-id-1", '
+            '"syskey": 0, '
+            '"name": "Jeremiah Doe", '
+            '"phoneNumber": "+442079460000", '
+            '"email": "oof@example.com", '
+            '"relationship": "SIBLING", '
+            '"lastModified": null}'
+        )
         self.assertEqual(contact.json_data(), json.loads(string_data))
+
+    @mock.patch.object(ContactsList, "_put_resource")
+    def test_update_contacts(self, mock_update):
+        response = MockHTTP()
+        response.status = 200
+        mock_update.return_value = response
+        eclist = []
+        string_data = (
+            '{"id": "totally-fake-id-2", '
+            '"syskey": 12345, '
+            '"name": "Jupiter Doe", '
+            '"phoneNumber": "+442079460000", '
+            '"email": "oof@example.com", '
+            '"relationship": "SIBLING", '
+            '"lastModified": null}'
+        )
+        ec1 = EmergencyContact(data=json.loads(string_data))
+        ec2 = EmergencyContact()
+        eclist.append(ec1)
+        eclist.append(ec2)
+        contactslist = ContactsList()
+        contactslist.put_contacts(12345, eclist)
+
+        mock_update.assert_called_with(
+            "/contacts/v1/emergencyContacts/12345",
+            json.dumps(contactslist.put_list(eclist)),
+        )
+
+    def test_empty_contact(self):
+        string_data = (
+            '{"id": "totally-fake-id-2", '
+            '"syskey": 12345, '
+            '"name": "Jupiter Doe", '
+            '"phoneNumber": "+442079460000", '
+            '"email": "oof@example.com", '
+            '"relationship": "SIBLING", '
+            '"lastModified": null}'
+        )
+        ec1 = EmergencyContact(data=json.loads(string_data))
+        self.assertFalse(ec1.is_empty())
+        ec2 = EmergencyContact()
+        self.assertTrue(ec2.is_empty())
