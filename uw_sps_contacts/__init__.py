@@ -76,3 +76,11 @@ class ContactsList(object):
             "Connection": "keep-alive",
         }
         return self.dao.putURL(url, headers, body)
+
+
+class FamilyContact(object):
+    def __init__(self, act_as=None):
+        self.dao = Contacts_DAO()
+
+    def get_contact_url(self, syskey):
+        return f"/registration/v1/address/{syskey}"
