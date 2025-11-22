@@ -82,5 +82,27 @@ class FamilyContact(object):
     def __init__(self, act_as=None):
         self.dao = Contacts_DAO()
 
-    def get_contact_url(self, syskey):
+    def _get_contact_url(self, syskey):
         return f"/registration/v1/address/{syskey}"
+
+    def get_contact(self, syskey):
+        response = self._get_resource(syskey)
+        if response.status == 200:
+            return self._process_data(json.loads(response.data))
+
+        if response.status == 401 or response.status == 403:
+            # clear token cache, retry
+            response = self._get_resource(syskey, clear_cached_token=True)
+            if response.status == 200:
+                return self._process_data(json.loads(response.data))
+
+        raise DataFailureException(
+            self._get_contact_url(syskey), response.status, str(response.data)
+        )
+
+    def _get_resource(self, syskey, clear_cached_token=False):
+        if clear_cached_token:
+            self.dao.clear_access_token()
+        return self.dao.getURL(
+            self._get_contacts_url(syskey), {"Accept": "application/json"}
+        )
