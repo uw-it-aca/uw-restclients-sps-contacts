@@ -104,5 +104,5 @@ class FamilyContact(object):
         if clear_cached_token:
             self.dao.clear_access_token()
         return self.dao.getURL(
-            self._get_contacts_url(syskey), {"Accept": "application/json"}
+            self._get_contact_url(syskey), {"Accept": "application/json"}
         )
