@@ -72,9 +72,19 @@ class FamilyContact(models.Model):
     phone_number = models.CharField(max_length=20)
 
     def __init__(self, *args, **kwargs):
+        data = kwargs.get("data")
+        if data is None:
+            return super().__init__(*args, **kwargs)
+
         self.name = kwargs["data"]["parent_name"]
         self.phone_number = (
             kwargs["data"]["parent_address"]["phone_area"]
             + kwargs["data"]["parent_address"]["phone_prefix"]
             + kwargs["data"]["parent_address"]["phone_suffix"]
         )
+
+    def json_data(self):
+        return {
+            "name": self.name,
+            "phone_number": self.phone_number,
+        }
