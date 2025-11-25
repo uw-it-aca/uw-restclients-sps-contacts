@@ -27,11 +27,14 @@ class FamilyContactsTest(TestCase):
             FamilyContacts().get_contact(12345)
 
     def test_family_contact_javerage(self):
-        fcontact = FamilyContacts()
-        contact = fcontact.get_contact(12345)
+        fcontacts = FamilyContacts()
+        contact = fcontacts.get_contact(12345)
 
         self.assertEqual('NAME,PARENT', contact.name)
         self.assertEqual('2064444444', contact.phone_number)
 
-        resp = fcontact._get_resource(12345, clear_cached_token=True)
+        resp = fcontacts._get_resource(12345, clear_cached_token=True)
         self.assertIsNotNone(resp)
+
+    def test_json_data(self):
+        pass
