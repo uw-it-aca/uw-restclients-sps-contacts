@@ -34,7 +34,7 @@ class ContactsListTest(TestCase):
         contacts = contactslist.get_contacts(12345)
         self.assertEqual(len(contacts), 2)
 
-        self.assertEqual(type([]), type(contacts))
+        self.assertIsInstance(contacts, list)
 
         self.assertEqual(
             "ab269f37-2807-4b10-b9d3-b5f7c602d45f", contacts[0].id

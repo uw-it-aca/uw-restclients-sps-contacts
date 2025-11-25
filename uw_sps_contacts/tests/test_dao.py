@@ -33,11 +33,6 @@ class TestSpsAuth(TestCase):
             DataFailureException,
             Contacts_Auth_DAO().get_auth_token)
 
-    @skip("refactored")
-    def test_no_auth_header(self):
-        headers = Contacts_DAO()._custom_headers("GET", "/", {}, "")
-        self.assertFalse("Authorization" in headers)
-
     @override_settings(RESTCLIENTS_SPS_CONTACTS_AUTH_SECRET="test1")
     @mock.patch.object(Contacts_Auth_DAO, "get_auth_token")
     def test_auth_header(self, mock_get_auth_token):
