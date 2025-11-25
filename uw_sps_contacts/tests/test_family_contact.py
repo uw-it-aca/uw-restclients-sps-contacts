@@ -5,23 +5,33 @@ import mock
 from unittest import TestCase
 from restclients_core.exceptions import DataFailureException
 from restclients_core.models import MockHTTP
-from uw_sps_contacts import FamilyContact
+from uw_sps_contacts import FamilyContacts
 
 
-class FamilyContactTest(TestCase):
+class FamilyContactsTest(TestCase):
 
     def test_family_contact_url(self):
-        contact = FamilyContact()
+        contact = FamilyContacts()
         self.assertEqual(
-            "/registration/v1/address/12345",
+            "/student/registration/v1/address/12345",
             contact._get_contact_url(12345),
         )
 
-    @mock.patch.object(FamilyContact, "_get_resource")
+    @mock.patch.object(FamilyContacts, "_get_resource")
     def test_error_401(self, mock):
         response = MockHTTP()
         response.status = 401
         response.data = "Not Authorized"
         mock.return_value = response
         with self.assertRaises(DataFailureException):
-            FamilyContact().get_contact(12345)
+            FamilyContacts().get_contact(12345)
+
+    def test_family_contact_javerage(self):
+        fcontact = FamilyContacts()
+        contact = fcontact.get_contact(12345)
+
+        self.assertEqual('NAME,PARENT', contact.name)
+        self.assertEqual('2064444444', contact.phone_number)
+
+        resp = fcontact._get_resource(12345, clear_cached_token=True)
+        self.assertIsNotNone(resp)

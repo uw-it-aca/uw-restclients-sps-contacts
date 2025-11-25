@@ -7,7 +7,7 @@ This is the interface for interacting with the Student Contacts Web Service.
 
 import json
 from uw_sps_contacts.dao import Contacts_DAO
-from uw_sps_contacts.models import EmergencyContact
+from uw_sps_contacts.models import EmergencyContact, FamilyContact
 from restclients_core.exceptions import DataFailureException
 import logging
 
@@ -78,12 +78,12 @@ class ContactsList(object):
         return self.dao.putURL(url, headers, body)
 
 
-class FamilyContact(object):
+class FamilyContacts(object):  # FamilyContactManager?!
     def __init__(self, act_as=None):
         self.dao = Contacts_DAO()
 
     def _get_contact_url(self, syskey):
-        return f"/registration/v1/address/{syskey}"
+        return f"/student/registration/v1/address/{syskey}"
 
     def get_contact(self, syskey):
         response = self._get_resource(syskey)
@@ -106,3 +106,8 @@ class FamilyContact(object):
         return self.dao.getURL(
             self._get_contact_url(syskey), {"Accept": "application/json"}
         )
+
+    def _process_data(self, jdata):
+        data = FamilyContact(data=jdata)
+
+        return data
