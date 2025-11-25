@@ -68,7 +68,7 @@ class EmergencyContact(models.Model):
 
 
 class FamilyContact(models.Model):
-    name = models.CharField()
+    name = models.CharField(max_length=150)
     phoneNumber = models.CharField(max_length=20)
 
     def __init__(self, *args, **kwargs):
