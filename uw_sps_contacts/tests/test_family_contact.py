@@ -33,7 +33,7 @@ class FamilyContactsTest(TestCase):
         contact = fcontacts.get_contact(12345)
 
         self.assertEqual('NAME,PARENT', contact.name)
-        self.assertEqual('2064444444', contact.phone_number)
+        self.assertEqual('2064444444', contact.phoneNumber)
 
         resp = fcontacts._get_resource(12345, clear_cached_token=True)
         self.assertIsNotNone(resp)
@@ -41,10 +41,10 @@ class FamilyContactsTest(TestCase):
     def test_json_data(self):
         contact = FamilyContact()
         contact.name = "Jake Doe"
-        contact.phone_number = "5555551234"
+        contact.phoneNumber = "5555551234"
         self.assertIsInstance(contact.json_data(), dict)
         string_data = (
             '{"name": "Jake Doe",'
-            '"phone_number": "5555551234"}'
+            '"phoneNumber": "5555551234"}'
         )
         self.assertEqual(contact.json_data(), json.loads(string_data))

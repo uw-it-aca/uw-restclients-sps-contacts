@@ -69,7 +69,7 @@ class EmergencyContact(models.Model):
 
 class FamilyContact(models.Model):
     name = models.CharField()
-    phone_number = models.CharField(max_length=20)
+    phoneNumber = models.CharField(max_length=20)
 
     def __init__(self, *args, **kwargs):
         data = kwargs.get("data")
@@ -77,7 +77,7 @@ class FamilyContact(models.Model):
             return super().__init__(*args, **kwargs)
 
         self.name = kwargs["data"]["parent_name"]
-        self.phone_number = (
+        self.phoneNumber = (
             kwargs["data"]["parent_address"]["phone_area"]
             + kwargs["data"]["parent_address"]["phone_prefix"]
             + kwargs["data"]["parent_address"]["phone_suffix"]
@@ -86,5 +86,5 @@ class FamilyContact(models.Model):
     def json_data(self):
         return {
             "name": self.name,
-            "phone_number": self.phone_number,
+            "phoneNumber": self.phoneNumber,
         }
