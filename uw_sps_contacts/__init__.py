@@ -78,7 +78,7 @@ class ContactsList(object):
         return self.dao.putURL(url, headers, body)
 
 
-class FamilyContacts(object):  # FamilyContactManager?!
+class FamilyContacts(object):
     def __init__(self, act_as=None):
         self.dao = Contacts_DAO()
 
