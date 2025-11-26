@@ -12,7 +12,7 @@ from restclients_core.exceptions import DataFailureException
 import logging
 
 
-class ContactsList(object):
+class EmergencyContacts(object):
     def __init__(self, act_as=None):
         self.dao = Contacts_DAO()
 
