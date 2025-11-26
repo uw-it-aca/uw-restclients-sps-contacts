@@ -1,12 +1,14 @@
 # Copyright 2025 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
-import json
-import mock
 import datetime
+import json
 from unittest import TestCase
+
+import mock
 from restclients_core.exceptions import DataFailureException
 from restclients_core.models import MockHTTP
+
 from uw_sps_contacts import EmergencyContacts
 from uw_sps_contacts.models import EmergencyContact
 

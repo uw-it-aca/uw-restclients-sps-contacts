@@ -2,13 +2,17 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from unittest import TestCase, skip
+
 import mock
 from commonconf import override_settings
 from restclients_core.exceptions import DataFailureException
 from restclients_core.models import MockHTTP
+
 from uw_sps_contacts.dao import Contacts_Auth_DAO, Contacts_DAO
 from uw_sps_contacts.utils import (
-    fdao_sps_contacts_override, fdao_sps_contacts_auth_override)
+    fdao_sps_contacts_auth_override,
+    fdao_sps_contacts_override,
+)
 
 
 @fdao_sps_contacts_auth_override

@@ -2,10 +2,12 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import json
-import mock
 from unittest import TestCase
+
+import mock
 from restclients_core.exceptions import DataFailureException
 from restclients_core.models import MockHTTP
+
 from uw_sps_contacts import FamilyContacts
 from uw_sps_contacts.models import FamilyContact
 
