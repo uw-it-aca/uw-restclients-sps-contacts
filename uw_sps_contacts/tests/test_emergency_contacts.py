@@ -7,30 +7,30 @@ import datetime
 from unittest import TestCase
 from restclients_core.exceptions import DataFailureException
 from restclients_core.models import MockHTTP
-from uw_sps_contacts import ContactsList
+from uw_sps_contacts import EmergencyContacts
 from uw_sps_contacts.models import EmergencyContact
 
 
-class ContactsListTest(TestCase):
+class EmergencyContactsTest(TestCase):
 
     def test_emergency_contacts_url(self):
-        contacts = ContactsList()
+        contacts = EmergencyContacts()
         self.assertEqual(
             "/contacts/v1/emergencyContacts/12345",
             contacts._get_contacts_url(12345),
         )
 
-    @mock.patch.object(ContactsList, "_get_resource")
+    @mock.patch.object(EmergencyContacts, "_get_resource")
     def test_error_401(self, mock):
         response = MockHTTP()
         response.status = 401
         response.data = "Not Authorized"
         mock.return_value = response
         with self.assertRaises(DataFailureException):
-            ContactsList().get_contacts(12345)
+            EmergencyContacts().get_contacts(12345)
 
     def test_contacts_for_javerage(self):
-        contactslist = ContactsList()
+        contactslist = EmergencyContacts()
         contacts = contactslist.get_contacts(12345)
         self.assertEqual(len(contacts), 2)
 
@@ -86,7 +86,7 @@ class ContactsListTest(TestCase):
         )
         self.assertEqual(contact.json_data(), json.loads(string_data))
 
-    @mock.patch.object(ContactsList, "_put_resource")
+    @mock.patch.object(EmergencyContacts, "_put_resource")
     def test_update_contacts(self, mock_update):
         response = MockHTTP()
         response.status = 200
@@ -105,7 +105,7 @@ class ContactsListTest(TestCase):
         ec2 = EmergencyContact()
         eclist.append(ec1)
         eclist.append(ec2)
-        contactslist = ContactsList()
+        contactslist = EmergencyContacts()
         contactslist.put_contacts(12345, eclist)
 
         mock_update.assert_called_with(
