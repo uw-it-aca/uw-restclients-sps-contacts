@@ -43,12 +43,12 @@ class EmergencyContactsTest(TestCase):
         )
         self.assertEqual(12345, contacts[0].syskey)
         self.assertEqual("John Doe", contacts[0].name)
-        self.assertEqual("5551234567", contacts[0].phoneNumber)
+        self.assertEqual("5551234567", contacts[0].phone_number)
         self.assertEqual("foo@example.com", contacts[0].email)
         self.assertEqual("PARENT", contacts[0].relationship)
         self.assertEqual(
             datetime.datetime(2025, 11, 11, 21, 28, 40, 180882),
-            contacts[0].lastModified,
+            contacts[0].last_modified,
         )
 
         self.assertEqual(
@@ -56,12 +56,12 @@ class EmergencyContactsTest(TestCase):
         )
         self.assertEqual(12345, contacts[1].syskey)
         self.assertEqual("Jane Doe", contacts[1].name)
-        self.assertEqual("5557654321", contacts[1].phoneNumber)
+        self.assertEqual("5557654321", contacts[1].phone_number)
         self.assertEqual("bar@example.com", contacts[1].email)
         self.assertEqual("PARENT", contacts[1].relationship)
         self.assertEqual(
             datetime.datetime(2025, 11, 11, 21, 28, 40, 267776),
-            contacts[1].lastModified,
+            contacts[1].last_modified,
         )
 
         resp = contactslist._get_resource(12345, clear_cached_token=True)
@@ -72,7 +72,7 @@ class EmergencyContactsTest(TestCase):
         contact.id = "totally-fake-id-1"
         contact.syskey = 0
         contact.name = "Jeremiah Doe"
-        contact.phoneNumber = "+442079460000"
+        contact.phone_number = "+442079460000"
         contact.email = "oof@example.com"
         contact.relationship = "SIBLING"
 
@@ -81,10 +81,10 @@ class EmergencyContactsTest(TestCase):
             '{"id": "totally-fake-id-1", '
             '"syskey": 0, '
             '"name": "Jeremiah Doe", '
-            '"phoneNumber": "+442079460000", '
+            '"phone_number": "+442079460000", '
             '"email": "oof@example.com", '
             '"relationship": "SIBLING", '
-            '"lastModified": null}'
+            '"last_modified": null}'
         )
         self.assertEqual(contact.json_data(), json.loads(string_data))
 
