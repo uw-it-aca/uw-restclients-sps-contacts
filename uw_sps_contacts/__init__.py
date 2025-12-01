@@ -6,13 +6,15 @@ This is the interface for interacting with the Student Contacts Web Service.
 """
 
 import json
-from uw_sps_contacts.dao import Contacts_DAO
-from uw_sps_contacts.models import EmergencyContact, FamilyContact
-from restclients_core.exceptions import DataFailureException
 import logging
 
+from restclients_core.exceptions import DataFailureException
 
-class ContactsList(object):
+from uw_sps_contacts.dao import Contacts_DAO
+from uw_sps_contacts.models import EmergencyContact, FamilyContact
+
+
+class EmergencyContacts(object):
     def __init__(self, act_as=None):
         self.dao = Contacts_DAO()
 

@@ -1,18 +1,19 @@
 # Copyright 2025 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
-from restclients_core import models
 import datetime
+
+from restclients_core import models
 
 
 class EmergencyContact(models.Model):
     id = models.CharField(max_length=255)  # not sure what the max actually is
     syskey = models.CharField(max_length=9)
     name = models.CharField(max_length=150)
-    phoneNumber = models.CharField(max_length=20)
+    phone_number = models.CharField(max_length=20)
     email = models.CharField(max_length=60)
     relationship = models.CharField()
-    lastModified = models.DateTimeField(null=True)
+    last_modified = models.DateTimeField(null=True)
 
     def __init__(self, *args, **kwargs):
         data = kwargs.get("data")
@@ -22,21 +23,21 @@ class EmergencyContact(models.Model):
         self.id = data["id"]
         self.syskey = data["syskey"]
         self.name = data["name"]
-        self.phoneNumber = data["phoneNumber"]
+        self.phone_number = data["phoneNumber"]
         self.email = data["email"]
         self.relationship = data["relationship"]
         try:
-            self.lastModified = datetime.datetime.utcfromtimestamp(
+            self.last_modified = datetime.datetime.utcfromtimestamp(
                 data["lastModified"]
             )
         except Exception:
-            self.lastModified = None
+            self.last_modified = None
 
     def is_empty(self):
         empty = (
             self.syskey == ""
             and self.name == ""
-            and self.phoneNumber == ""
+            and self.phone_number == ""
             and self.email == ""
             and self.relationship == ""
         )
@@ -47,12 +48,12 @@ class EmergencyContact(models.Model):
             "id": self.id,
             "syskey": self.syskey,
             "name": self.name,
-            "phoneNumber": self.phoneNumber,
+            "phone_number": self.phone_number,
             "email": self.email,
             "relationship": self.relationship,
-            "lastModified": (
-                self.lastModified.isoformat()
-                if (self.lastModified is not None)
+            "last_modified": (
+                self.last_modified.isoformat()
+                if (self.last_modified is not None)
                 else None
             ),
         }
@@ -61,7 +62,7 @@ class EmergencyContact(models.Model):
         return {
             "syskey": self.syskey,
             "name": self.name,
-            "phoneNumber": self.phoneNumber,
+            "phoneNumber": self.phone_number,
             "email": self.email,
             "relationship": self.relationship,
         }
@@ -69,7 +70,7 @@ class EmergencyContact(models.Model):
 
 class FamilyContact(models.Model):
     name = models.CharField(max_length=150)
-    phoneNumber = models.CharField(max_length=20)
+    phone_number = models.CharField(max_length=20)
 
     def __init__(self, *args, **kwargs):
         data = kwargs.get("data")
@@ -77,7 +78,7 @@ class FamilyContact(models.Model):
             return super().__init__(*args, **kwargs)
 
         self.name = kwargs["data"]["parent_name"]
-        self.phoneNumber = (
+        self.phone_number = (
             kwargs["data"]["parent_address"]["phone_area"]
             + kwargs["data"]["parent_address"]["phone_prefix"]
             + kwargs["data"]["parent_address"]["phone_suffix"]
@@ -86,5 +87,5 @@ class FamilyContact(models.Model):
     def json_data(self):
         return {
             "name": self.name,
-            "phoneNumber": self.phoneNumber,
+            "phone_number": self.phone_number,
         }

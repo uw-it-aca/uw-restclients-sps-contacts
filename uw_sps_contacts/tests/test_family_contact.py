@@ -2,10 +2,12 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import json
-import mock
 from unittest import TestCase
+
+import mock
 from restclients_core.exceptions import DataFailureException
 from restclients_core.models import MockHTTP
+
 from uw_sps_contacts import FamilyContacts
 from uw_sps_contacts.models import FamilyContact
 
@@ -33,7 +35,7 @@ class FamilyContactsTest(TestCase):
         contact = fcontacts.get_contact(12345)
 
         self.assertEqual('NAME,PARENT', contact.name)
-        self.assertEqual('2064444444', contact.phoneNumber)
+        self.assertEqual('2064444444', contact.phone_number)
 
         resp = fcontacts._get_resource(12345, clear_cached_token=True)
         self.assertIsNotNone(resp)
@@ -41,10 +43,10 @@ class FamilyContactsTest(TestCase):
     def test_json_data(self):
         contact = FamilyContact()
         contact.name = "Jake Doe"
-        contact.phoneNumber = "5555551234"
+        contact.phone_number = "5555551234"
         self.assertIsInstance(contact.json_data(), dict)
         string_data = (
             '{"name": "Jake Doe",'
-            '"phoneNumber": "5555551234"}'
+            '"phone_number": "5555551234"}'
         )
         self.assertEqual(contact.json_data(), json.loads(string_data))

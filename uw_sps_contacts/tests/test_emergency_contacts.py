@@ -1,36 +1,38 @@
 # Copyright 2025 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
-import json
-import mock
 import datetime
+import json
 from unittest import TestCase
+
+import mock
 from restclients_core.exceptions import DataFailureException
 from restclients_core.models import MockHTTP
-from uw_sps_contacts import ContactsList
+
+from uw_sps_contacts import EmergencyContacts
 from uw_sps_contacts.models import EmergencyContact
 
 
-class ContactsListTest(TestCase):
+class EmergencyContactsTest(TestCase):
 
     def test_emergency_contacts_url(self):
-        contacts = ContactsList()
+        contacts = EmergencyContacts()
         self.assertEqual(
             "/contacts/v1/emergencyContacts/12345",
             contacts._get_contacts_url(12345),
         )
 
-    @mock.patch.object(ContactsList, "_get_resource")
+    @mock.patch.object(EmergencyContacts, "_get_resource")
     def test_error_401(self, mock):
         response = MockHTTP()
         response.status = 401
         response.data = "Not Authorized"
         mock.return_value = response
         with self.assertRaises(DataFailureException):
-            ContactsList().get_contacts(12345)
+            EmergencyContacts().get_contacts(12345)
 
     def test_contacts_for_javerage(self):
-        contactslist = ContactsList()
+        contactslist = EmergencyContacts()
         contacts = contactslist.get_contacts(12345)
         self.assertEqual(len(contacts), 2)
 
@@ -41,12 +43,12 @@ class ContactsListTest(TestCase):
         )
         self.assertEqual(12345, contacts[0].syskey)
         self.assertEqual("John Doe", contacts[0].name)
-        self.assertEqual("5551234567", contacts[0].phoneNumber)
+        self.assertEqual("5551234567", contacts[0].phone_number)
         self.assertEqual("foo@example.com", contacts[0].email)
         self.assertEqual("PARENT", contacts[0].relationship)
         self.assertEqual(
             datetime.datetime(2025, 11, 11, 21, 28, 40, 180882),
-            contacts[0].lastModified,
+            contacts[0].last_modified,
         )
 
         self.assertEqual(
@@ -54,12 +56,12 @@ class ContactsListTest(TestCase):
         )
         self.assertEqual(12345, contacts[1].syskey)
         self.assertEqual("Jane Doe", contacts[1].name)
-        self.assertEqual("5557654321", contacts[1].phoneNumber)
+        self.assertEqual("5557654321", contacts[1].phone_number)
         self.assertEqual("bar@example.com", contacts[1].email)
         self.assertEqual("PARENT", contacts[1].relationship)
         self.assertEqual(
             datetime.datetime(2025, 11, 11, 21, 28, 40, 267776),
-            contacts[1].lastModified,
+            contacts[1].last_modified,
         )
 
         resp = contactslist._get_resource(12345, clear_cached_token=True)
@@ -70,7 +72,7 @@ class ContactsListTest(TestCase):
         contact.id = "totally-fake-id-1"
         contact.syskey = 0
         contact.name = "Jeremiah Doe"
-        contact.phoneNumber = "+442079460000"
+        contact.phone_number = "+442079460000"
         contact.email = "oof@example.com"
         contact.relationship = "SIBLING"
 
@@ -79,14 +81,14 @@ class ContactsListTest(TestCase):
             '{"id": "totally-fake-id-1", '
             '"syskey": 0, '
             '"name": "Jeremiah Doe", '
-            '"phoneNumber": "+442079460000", '
+            '"phone_number": "+442079460000", '
             '"email": "oof@example.com", '
             '"relationship": "SIBLING", '
-            '"lastModified": null}'
+            '"last_modified": null}'
         )
         self.assertEqual(contact.json_data(), json.loads(string_data))
 
-    @mock.patch.object(ContactsList, "_put_resource")
+    @mock.patch.object(EmergencyContacts, "_put_resource")
     def test_update_contacts(self, mock_update):
         response = MockHTTP()
         response.status = 200
@@ -105,7 +107,7 @@ class ContactsListTest(TestCase):
         ec2 = EmergencyContact()
         eclist.append(ec1)
         eclist.append(ec2)
-        contactslist = ContactsList()
+        contactslist = EmergencyContacts()
         contactslist.put_contacts(12345, eclist)
 
         mock_update.assert_called_with(
