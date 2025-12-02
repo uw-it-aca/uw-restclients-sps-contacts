@@ -7,7 +7,7 @@ from restclients_core import models
 
 
 class EmergencyContact(models.Model):
-    id = models.CharField()
+    id = models.CharField(max_length=255)
     syskey = models.CharField(max_length=9)
     name = models.CharField(max_length=150)
     phone_number = models.CharField(max_length=20)
@@ -70,15 +70,15 @@ class EmergencyContact(models.Model):
 
 class FamilyContact(models.Model):
     name = models.CharField(max_length=150)
-    address_line_1 = models.CharField()
-    address_line_2 = models.CharField()
-    city = models.CharField()
-    state = models.CharField()
-    zip_5 = models.CharField()
-    zip_filler_b = models.CharField()
+    address_line_1 = models.CharField(max_length=255)
+    address_line_2 = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    state = models.CharField(max_length=255)
+    zip_5 = models.CharField(max_length=10)
+    zip_filler_b = models.CharField(max_length=10)
     phone_number = models.CharField(max_length=20)
-    country = models.CharField()
-    postal_cd = models.CharField()
+    country = models.CharField(max_length=255)
+    postal_cd = models.CharField(max_length=20)
 
     def __init__(self, *args, **kwargs):
         data = kwargs.get("data")
