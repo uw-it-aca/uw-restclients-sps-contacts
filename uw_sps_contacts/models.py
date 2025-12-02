@@ -74,7 +74,6 @@ class FamilyContact(models.Model):
     address_line_2 = models.CharField()
     city = models.CharField()
     state = models.CharField()
-    # TODO: what to do for zip+4 vs postal_cd
     zip_5 = models.CharField()
     zip_filler_b = models.CharField()
     phone_number = models.CharField(max_length=20)
@@ -89,7 +88,6 @@ class FamilyContact(models.Model):
         self.name = kwargs["data"]["parent_name"]
         self.address_line_1 = kwargs["data"]["parent_address"]["line_1"]
         self.address_line_2 = kwargs["data"]["parent_address"]["line_2"]
-        # TODO: should this be address_city, etc. ?
         self.city = kwargs["data"]["parent_address"]["city"]
         self.state = kwargs["data"]["parent_address"]["state"]
         self.zip_5 = kwargs["data"]["parent_address"]["zip_5"]
