@@ -7,7 +7,7 @@ from restclients_core import models
 
 
 class EmergencyContact(models.Model):
-    id = models.CharField(max_length=255)  # not sure what the max actually is
+    id = models.CharField(max_length=255)
     syskey = models.CharField(max_length=9)
     name = models.CharField(max_length=150)
     phone_number = models.CharField(max_length=20)
@@ -70,7 +70,15 @@ class EmergencyContact(models.Model):
 
 class FamilyContact(models.Model):
     name = models.CharField(max_length=150)
+    address_line_1 = models.CharField(max_length=255)
+    address_line_2 = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    state = models.CharField(max_length=255)
+    zip_5 = models.CharField(max_length=10)
+    zip_filler_b = models.CharField(max_length=10)
     phone_number = models.CharField(max_length=20)
+    country = models.CharField(max_length=255)
+    postal_cd = models.CharField(max_length=20)
 
     def __init__(self, *args, **kwargs):
         data = kwargs.get("data")
@@ -78,14 +86,30 @@ class FamilyContact(models.Model):
             return super().__init__(*args, **kwargs)
 
         self.name = kwargs["data"]["parent_name"]
+        self.address_line_1 = kwargs["data"]["parent_address"]["line_1"]
+        self.address_line_2 = kwargs["data"]["parent_address"]["line_2"]
+        self.city = kwargs["data"]["parent_address"]["city"]
+        self.state = kwargs["data"]["parent_address"]["state"]
+        self.zip_5 = kwargs["data"]["parent_address"]["zip_5"]
+        self.zip_filler_b = kwargs["data"]["parent_address"]["zip_filler_b"]
         self.phone_number = (
             kwargs["data"]["parent_address"]["phone_area"]
             + kwargs["data"]["parent_address"]["phone_prefix"]
             + kwargs["data"]["parent_address"]["phone_suffix"]
         )
+        self.country = kwargs["data"]["parent_address"]["country"]
+        self.postal_cd = kwargs["data"]["parent_address"]["postal_cd"]
 
     def json_data(self):
         return {
             "name": self.name,
+            "address_line_1": self.address_line_1,
+            "address_line_2": self.address_line_2,
+            "city": self.city,
+            "state": self.state,
+            "zip_5": self.zip_5,
+            "zip_filler_b": self.zip_filler_b,
             "phone_number": self.phone_number,
+            "country": self.country,
+            "postal_cd": self.postal_cd,
         }

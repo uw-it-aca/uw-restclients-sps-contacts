@@ -43,7 +43,7 @@ class EmergencyContactsTest(TestCase):
         )
         self.assertEqual(12345, contacts[0].syskey)
         self.assertEqual("John Doe", contacts[0].name)
-        self.assertEqual("5551234567", contacts[0].phone_number)
+        self.assertEqual("+15551234567", contacts[0].phone_number)
         self.assertEqual("foo@example.com", contacts[0].email)
         self.assertEqual("PARENT", contacts[0].relationship)
         self.assertEqual(
@@ -56,7 +56,7 @@ class EmergencyContactsTest(TestCase):
         )
         self.assertEqual(12345, contacts[1].syskey)
         self.assertEqual("Jane Doe", contacts[1].name)
-        self.assertEqual("5557654321", contacts[1].phone_number)
+        self.assertEqual("+15557654321", contacts[1].phone_number)
         self.assertEqual("bar@example.com", contacts[1].email)
         self.assertEqual("PARENT", contacts[1].relationship)
         self.assertEqual(
