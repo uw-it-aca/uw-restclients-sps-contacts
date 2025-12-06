@@ -27,12 +27,12 @@ class EmergencyContact(models.Model):
         self.id = data["id"]
         self.syskey = data["syskey"]
         self.name = data["name"]
-        self.phone_number = data["phoneNumber"]
+        self.phone_number = data["phoneNumber"]  # camelCase from API
         self.email = data["email"]
         self.relationship = data["relationship"]
         try:
             self.last_modified = datetime.datetime.utcfromtimestamp(
-                data["lastModified"]
+                data["lastModified"]  # camelCase from API
             )
         except Exception:
             self.last_modified = None
@@ -70,7 +70,7 @@ class EmergencyContact(models.Model):
         return {
             "syskey": self.syskey,
             "name": self.name,
-            "phoneNumber": self.phone_number,
+            "phoneNumber": self.phone_number,  # camelCase to API
             "email": self.email,
             "relationship": self.relationship,
         }
