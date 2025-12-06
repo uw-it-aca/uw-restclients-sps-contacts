@@ -15,13 +15,33 @@ from uw_sps_contacts.models import EmergencyContact, FamilyContact
 
 
 class EmergencyContacts(object):
+    """Interface for interacting with Emergency Contacts Web Service.
+    """
+
     def __init__(self, act_as=None):
+        """Creates a new EmergencyContacts interface object.
+        Args:
+            act_as: UW NetID of user to act as (if any)
+        """
         self.dao = Contacts_DAO()
 
     def _get_contacts_url(self, syskey):
+        """Constructs the URL for emergency contacts resource.
+        Args:
+            syskey: Student's system key
+        Returns:
+            URL for emergency contacts resource
+        """
         return f"/contacts/v1/emergencyContacts/{syskey}"
 
     def _get_resource(self, syskey, clear_cached_token=False):
+        """Retrieves the emergency contacts resource.
+        Args:
+            syskey: Student's system key
+            clear_cached_token: Whether to clear cached access token
+        Returns:
+            HTTP response from the web service
+        """
         if clear_cached_token:
             self.dao.clear_access_token()
         return self.dao.getURL(
@@ -29,6 +49,12 @@ class EmergencyContacts(object):
         )
 
     def get_contacts(self, syskey):
+        """Retrieves emergency contacts for a student.
+        Args:
+            syskey: Student's system key
+        Returns:
+            List of EmergencyContact objects
+        """
         response = self._get_resource(syskey)
         if response.status == 200:
             return self._process_data(json.loads(response.data))
@@ -44,11 +70,24 @@ class EmergencyContacts(object):
         )
 
     def put_list(self, eclist):
+        """Prepares a list of emergency contacts for PUT request.
+        Args:
+            eclist: List of EmergencyContact objects
+        Returns:
+            List of dictionaries representing emergency contacts
+        """
         return [
             contact.put_data() for contact in eclist if not contact.is_empty()
         ]
 
     def put_contacts(self, syskey, eclist):
+        """Updates emergency contacts for a student.
+        Args:
+            syskey: Student's system key
+            eclist: List of EmergencyContact objects
+        Returns:
+            HTTP response from the web service
+        """
         url = self._get_contacts_url(syskey)
         body = json.dumps(self.put_list(eclist))
 
@@ -61,6 +100,12 @@ class EmergencyContacts(object):
                 return response
 
     def _process_data(self, jdata):
+        """Processes JSON data into EmergencyContact objects.
+        Args:
+            jdata: JSON data representing emergency contacts
+        Returns:
+            List of EmergencyContact objects
+        """
         data = []
         for i in jdata:
             em_contact = EmergencyContact(data=i)
@@ -69,6 +114,14 @@ class EmergencyContacts(object):
         return data
 
     def _put_resource(self, url, body={}, clear_cached_token=False):
+        """Sends a PUT request to update emergency contacts.
+        Args:
+            url: URL for the emergency contacts resource
+            body: JSON body for the PUT request
+            clear_cached_token: Whether to clear cached access token
+        Returns:
+            HTTP response from the web service
+        """
         if clear_cached_token:
             self.dao.clear_access_token()
 
@@ -81,13 +134,31 @@ class EmergencyContacts(object):
 
 
 class FamilyContacts(object):
+    """Interface for interacting with Family Contacts Web Service.
+    """
     def __init__(self, act_as=None):
+        """Creates a new FamilyContacts interface object.
+        Args:
+            act_as: UW NetID of user to act as (if any)
+        """
         self.dao = Contacts_DAO()
 
     def _get_contact_url(self, syskey):
+        """Constructs the URL for family contact resource.
+        Args:
+            syskey: Student's system key
+        Returns:
+            URL for family contact resource
+        """
         return f"/student/registration/v1/address/{syskey}"
 
     def get_contact(self, syskey):
+        """Retrieves family contact for a student.
+        Args:
+            syskey: Student's system key
+        Returns:
+            FamilyContact object
+        """
         response = self._get_resource(syskey)
         if response.status == 200:
             return self._process_data(json.loads(response.data))
@@ -103,6 +174,13 @@ class FamilyContacts(object):
         )
 
     def _get_resource(self, syskey, clear_cached_token=False):
+        """Retrieves the family contact resource.
+        Args:
+            syskey: Student's system key
+            clear_cached_token: Whether to clear cached access token
+        Returns:
+            HTTP response from the web service
+        """
         if clear_cached_token:
             self.dao.clear_access_token()
         return self.dao.getURL(

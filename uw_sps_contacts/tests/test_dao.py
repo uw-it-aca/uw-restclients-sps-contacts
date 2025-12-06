@@ -18,6 +18,8 @@ from uw_sps_contacts.utils import (
 @fdao_sps_contacts_auth_override
 @fdao_sps_contacts_override
 class TestSpsAuth(TestCase):
+    """Tests for SPS Contacts Auth DAO
+    """
 
     def test_is_cacheable(self):
         auth = Contacts_Auth_DAO()

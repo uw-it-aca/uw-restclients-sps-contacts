@@ -14,8 +14,12 @@ from uw_sps_contacts.models import EmergencyContact
 
 
 class EmergencyContactsTest(TestCase):
+    """Tests for the EmergencyContacts class.
+    """
 
     def test_emergency_contacts_url(self):
+        """Test the emergency contacts URL construction.
+        """
         contacts = EmergencyContacts()
         self.assertEqual(
             "/contacts/v1/emergencyContacts/12345",
@@ -24,6 +28,8 @@ class EmergencyContactsTest(TestCase):
 
     @mock.patch.object(EmergencyContacts, "_get_resource")
     def test_error_401(self, mock):
+        """Test handling of 401 Unauthorized error.
+        """
         response = MockHTTP()
         response.status = 401
         response.data = "Not Authorized"
@@ -32,6 +38,8 @@ class EmergencyContactsTest(TestCase):
             EmergencyContacts().get_contacts(12345)
 
     def test_contacts_for_javerage(self):
+        """Test retrieval and parsing of emergency contacts for a sample user.
+        """
         contactslist = EmergencyContacts()
         contacts = contactslist.get_contacts(12345)
         self.assertEqual(len(contacts), 2)
@@ -68,6 +76,8 @@ class EmergencyContactsTest(TestCase):
         self.assertIsNotNone(resp)
 
     def test_json_data(self):
+        """Test the json_data method of EmergencyContact.
+        """
         contact = EmergencyContact()
         contact.id = "totally-fake-id-1"
         contact.syskey = 0
@@ -90,6 +100,8 @@ class EmergencyContactsTest(TestCase):
 
     @mock.patch.object(EmergencyContacts, "_put_resource")
     def test_update_contacts(self, mock_update):
+        """Test updating emergency contacts for a user.
+        """
         response = MockHTTP()
         response.status = 200
         mock_update.return_value = response
@@ -116,6 +128,8 @@ class EmergencyContactsTest(TestCase):
         )
 
     def test_empty_contact(self):
+        """Test the is_empty method of EmergencyContact.
+        """
         string_data = (
             '{"id": "totally-fake-id-2", '
             '"syskey": 12345, '
