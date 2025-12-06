@@ -13,15 +13,21 @@ logger = logging.getLogger(__name__)
 
 
 class Contacts_Auth_DAO(DAO):
+    """ DAO for SPS Contacts OAuth2 Authentication
+    """
     sps_contacts_access_token_url = "/oauth2/token"
 
     def service_name(self):
+        """ Returns the service name for SPS Contacts Auth
+        """
         return "sps_contacts_auth"
 
     def _is_cacheable(self, method, url, headers, body=None):
         return True
 
     def _custom_headers(self, method, url, headers, body):
+        """ Add custom headers for SPS Contacts Auth requests
+        """
         if not headers:
             headers = {}
 
@@ -36,6 +42,8 @@ class Contacts_Auth_DAO(DAO):
         self.clear_cached_response(self.sps_contacts_access_token_url)
 
     def get_auth_token(self):
+        """ Get an OAuth2 access token from SPS Contacts Auth
+        """
         response = self.postURL(
             self.sps_contacts_access_token_url,
             body="grant_type=client_credentials",
@@ -56,6 +64,8 @@ class Contacts_Auth_DAO(DAO):
             self.sps_contacts_access_token_url, response.status, response.data)
 
     def service_mock_paths(self):
+        """ Returns the mock resource paths for SPS Contacts Auth
+        """
         path = [abspath(os.path.join(dirname(__file__), "resources"))]
         return path
 
@@ -74,18 +84,26 @@ class Contacts_Auth_DAO(DAO):
 
 
 class Contacts_DAO(DAO):
+    """ DAO for SPS Contacts API requests
+    """
     def __init__(self):
         self.auth_dao = Contacts_Auth_DAO()
         return super().__init__()
 
     def service_name(self):
+        """ Returns the service name for SPS Contacts API
+        """
         return "sps_contacts"
 
     def service_mock_paths(self):
+        """ Returns the mock resource paths for SPS Contacts API
+        """
         path = [abspath(os.path.join(dirname(__file__), "resources"))]
         return path
 
     def _custom_headers(self, method, url, headers, body):
+        """ Add custom headers for SPS Contacts API requests
+        """
         if not headers:
             headers = {}
 
