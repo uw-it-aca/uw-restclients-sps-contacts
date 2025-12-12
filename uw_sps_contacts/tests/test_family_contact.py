@@ -13,8 +13,12 @@ from uw_sps_contacts.models import FamilyContact
 
 
 class FamilyContactsTest(TestCase):
+    """Unit tests for FamilyContacts class
+    """
 
     def test_family_contact_url(self):
+        """Test that the family contact URL is correct
+        """
         contact = FamilyContacts()
         self.assertEqual(
             "/student/registration/v1/address/12345",
@@ -23,6 +27,8 @@ class FamilyContactsTest(TestCase):
 
     @mock.patch.object(FamilyContacts, "_get_resource")
     def test_error_401(self, mock):
+        """Test that a 401 error raises DataFailureException
+        """
         response = MockHTTP()
         response.status = 401
         response.data = "Not Authorized"
@@ -31,6 +37,8 @@ class FamilyContactsTest(TestCase):
             FamilyContacts().get_contact(12345)
 
     def test_family_contact_javerage(self):
+        """Test that a known family contact is returned correctly
+        """
         fcontacts = FamilyContacts()
         contact = fcontacts.get_contact(12345)
 
@@ -49,6 +57,8 @@ class FamilyContactsTest(TestCase):
         self.assertIsNotNone(resp)
 
     def test_json_data(self):
+        """Test that json_data method returns correct dictionary
+        """
         contact = FamilyContact()
         contact.name = "Jake Doe"
         contact.address_line_1 = "C/O STUDENT TEAM"

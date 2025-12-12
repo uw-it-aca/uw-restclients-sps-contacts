@@ -7,6 +7,8 @@ from restclients_core import models
 
 
 class EmergencyContact(models.Model):
+    """Model for Emergency Contact information
+    """
     id = models.CharField(max_length=255)
     syskey = models.CharField(max_length=9)
     name = models.CharField(max_length=150)
@@ -16,6 +18,8 @@ class EmergencyContact(models.Model):
     last_modified = models.DateTimeField(null=True)
 
     def __init__(self, *args, **kwargs):
+        """Initialize EmergencyContact from data dictionary
+        """
         data = kwargs.get("data")
         if data is None:
             return super().__init__(*args, **kwargs)
@@ -23,20 +27,19 @@ class EmergencyContact(models.Model):
         self.id = data["id"]
         self.syskey = data["syskey"]
         self.name = data["name"]
-        self.phone_number = data["phoneNumber"]
+        self.phone_number = data["phoneNumber"]  # camelCase from API
         self.email = data["email"]
         self.relationship = data["relationship"]
         try:
             self.last_modified = datetime.datetime.utcfromtimestamp(
-                data["lastModified"]
+                data["lastModified"]  # camelCase from API
             )
         except Exception:
             self.last_modified = None
 
     def is_empty(self):
         empty = (
-            self.syskey == ""
-            and self.name == ""
+            self.name == ""
             and self.phone_number == ""
             and self.email == ""
             and self.relationship == ""
@@ -44,6 +47,8 @@ class EmergencyContact(models.Model):
         return empty
 
     def json_data(self):
+        """Return EmergencyContact data as dictionary
+        """
         return {
             "id": self.id,
             "syskey": self.syskey,
@@ -59,16 +64,20 @@ class EmergencyContact(models.Model):
         }
 
     def put_data(self):
+        """Return EmergencyContact data for PUT request
+        """
         return {
             "syskey": self.syskey,
             "name": self.name,
-            "phoneNumber": self.phone_number,
+            "phoneNumber": self.phone_number,  # camelCase to API
             "email": self.email,
             "relationship": self.relationship,
         }
 
 
 class FamilyContact(models.Model):
+    """Model for Family Contact information
+    """
     name = models.CharField(max_length=150)
     address_line_1 = models.CharField(max_length=255)
     address_line_2 = models.CharField(max_length=255)
@@ -81,6 +90,8 @@ class FamilyContact(models.Model):
     postal_cd = models.CharField(max_length=20)
 
     def __init__(self, *args, **kwargs):
+        """Initialize FamilyContact from data dictionary
+        """
         data = kwargs.get("data")
         if data is None:
             return super().__init__(*args, **kwargs)
@@ -101,6 +112,8 @@ class FamilyContact(models.Model):
         self.postal_cd = kwargs["data"]["parent_address"]["postal_cd"]
 
     def json_data(self):
+        """Return FamilyContact data as dictionary
+        """
         return {
             "name": self.name,
             "address_line_1": self.address_line_1,
