@@ -39,8 +39,7 @@ class EmergencyContact(models.Model):
 
     def is_empty(self):
         empty = (
-            self.syskey == ""
-            and self.name == ""
+            self.name == ""
             and self.phone_number == ""
             and self.email == ""
             and self.relationship == ""
