@@ -1,4 +1,4 @@
-# Copyright 2025 UW-IT, University of Washington
+# Copyright 2026 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
 import datetime
@@ -67,6 +67,7 @@ class EmergencyContact(models.Model):
         """Return EmergencyContact data for PUT request
         """
         return {
+            "id": self.id,
             "syskey": self.syskey,
             "name": self.name,
             "phoneNumber": self.phone_number,  # camelCase to API

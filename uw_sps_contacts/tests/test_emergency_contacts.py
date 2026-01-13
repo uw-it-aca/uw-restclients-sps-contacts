@@ -1,4 +1,4 @@
-# Copyright 2025 UW-IT, University of Washington
+# Copyright 2026 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
 import datetime
@@ -74,6 +74,28 @@ class EmergencyContactsTest(TestCase):
 
         resp = contactslist._get_resource(12345, clear_cached_token=True)
         self.assertIsNotNone(resp)
+
+    def test_put_data(self):
+        """Test the put_data method of EmergencyContact.
+        """
+        contact = EmergencyContact()
+        contact.id = "totally-fake-id-1"
+        contact.syskey = 0
+        contact.name = "Jeremiah Doe"
+        contact.phone_number = "+442079460000"
+        contact.email = "blah@example.com"
+        contact.relationship = "SIBLING"
+
+        self.assertIsInstance(contact.put_data(), dict)
+        string_data = (
+            '{"id": "totally-fake-id-1", '
+            '"syskey": 0, '
+            '"name": "Jeremiah Doe", '
+            '"phoneNumber": "+442079460000", '
+            '"email": "blah@example.com", '
+            '"relationship": "SIBLING"}'
+            )
+        self.assertEqual(json.loads(string_data), contact.put_data())
 
     def test_json_data(self):
         """Test the json_data method of EmergencyContact.
