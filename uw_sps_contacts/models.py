@@ -67,6 +67,7 @@ class EmergencyContact(models.Model):
         """Return EmergencyContact data for PUT request
         """
         return {
+            "id": self.id,
             "syskey": self.syskey,
             "name": self.name,
             "phoneNumber": self.phone_number,  # camelCase to API
