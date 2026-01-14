@@ -66,14 +66,17 @@ class EmergencyContact(models.Model):
     def put_data(self):
         """Return EmergencyContact data for PUT request
         """
-        return {
-            "id": self.id,
+        data = {
             "syskey": self.syskey,
             "name": self.name,
             "phoneNumber": self.phone_number,  # camelCase to API
             "email": self.email,
             "relationship": self.relationship,
         }
+        if self.id:
+            data["id"] = self.id
+
+        return data
 
 
 class FamilyContact(models.Model):

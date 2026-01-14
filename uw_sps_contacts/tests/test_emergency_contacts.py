@@ -97,6 +97,25 @@ class EmergencyContactsTest(TestCase):
             )
         self.assertEqual(json.loads(string_data), contact.put_data())
 
+    def test_put_data_new_contact(self):
+        """Test the put_data method of EmergencyContact for a new contact.
+        """
+        contact = EmergencyContact()
+        contact.syskey = 0
+        contact.name = "New Contact"
+        contact.phone_number = "+1234567890"
+        contact.email = "blah@example.com"
+        contact.relationship = "FRIEND"
+        self.assertIsInstance(contact.put_data(), dict)
+        string_data = (
+            '{"syskey": 0, '
+            '"name": "New Contact", '
+            '"phoneNumber": "+1234567890", '
+            '"email": "blah@example.com", '
+            '"relationship": "FRIEND"}'
+        )
+        self.assertEqual(json.loads(string_data), contact.put_data())
+
     def test_json_data(self):
         """Test the json_data method of EmergencyContact.
         """
