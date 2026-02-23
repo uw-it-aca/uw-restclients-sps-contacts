@@ -4,6 +4,7 @@
 import datetime
 import json
 from unittest import TestCase
+from zoneinfo import ZoneInfo
 
 import mock
 from restclients_core.exceptions import DataFailureException
@@ -14,12 +15,10 @@ from uw_sps_contacts.models import EmergencyContact
 
 
 class EmergencyContactsTest(TestCase):
-    """Tests for the EmergencyContacts class.
-    """
+    """Tests for the EmergencyContacts class."""
 
     def test_emergency_contacts_url(self):
-        """Test the emergency contacts URL construction.
-        """
+        """Test the emergency contacts URL construction."""
         contacts = EmergencyContacts()
         self.assertEqual(
             "/contacts/v1/emergencyContacts/12345",
@@ -28,8 +27,7 @@ class EmergencyContactsTest(TestCase):
 
     @mock.patch.object(EmergencyContacts, "_get_resource")
     def test_error_401(self, mock):
-        """Test handling of 401 Unauthorized error.
-        """
+        """Test handling of 401 Unauthorized error."""
         response = MockHTTP()
         response.status = 401
         response.data = "Not Authorized"
@@ -55,7 +53,16 @@ class EmergencyContactsTest(TestCase):
         self.assertEqual("foo@example.com", contacts[0].email)
         self.assertEqual("PARENT", contacts[0].relationship)
         self.assertEqual(
-            datetime.datetime(2025, 11, 11, 21, 28, 40, 180882),
+            datetime.datetime(
+                2025,
+                11,
+                11,
+                13,
+                28,
+                40,
+                180882,
+                tzinfo=ZoneInfo("America/Los_Angeles"),
+            ),
             contacts[0].last_modified,
         )
 
@@ -68,7 +75,16 @@ class EmergencyContactsTest(TestCase):
         self.assertEqual("bar@example.com", contacts[1].email)
         self.assertEqual("PARENT", contacts[1].relationship)
         self.assertEqual(
-            datetime.datetime(2025, 11, 11, 21, 28, 40, 267776),
+            datetime.datetime(
+                2025,
+                11,
+                11,
+                13,
+                28,
+                40,
+                267776,
+                tzinfo=ZoneInfo("America/Los_Angeles"),
+            ),
             contacts[1].last_modified,
         )
 
@@ -76,8 +92,7 @@ class EmergencyContactsTest(TestCase):
         self.assertIsNotNone(resp)
 
     def test_put_data(self):
-        """Test the put_data method of EmergencyContact.
-        """
+        """Test the put_data method of EmergencyContact."""
         contact = EmergencyContact()
         contact.id = "totally-fake-id-1"
         contact.syskey = 0
@@ -94,12 +109,11 @@ class EmergencyContactsTest(TestCase):
             '"phoneNumber": "+442079460000", '
             '"email": "blah@example.com", '
             '"relationship": "SIBLING"}'
-            )
+        )
         self.assertEqual(json.loads(string_data), contact.put_data())
 
     def test_put_data_new_contact(self):
-        """Test the put_data method of EmergencyContact for a new contact.
-        """
+        """Test the put_data method of EmergencyContact for a new contact."""
         contact = EmergencyContact()
         contact.syskey = 0
         contact.name = "New Contact"
@@ -117,8 +131,7 @@ class EmergencyContactsTest(TestCase):
         self.assertEqual(json.loads(string_data), contact.put_data())
 
     def test_json_data(self):
-        """Test the json_data method of EmergencyContact.
-        """
+        """Test the json_data method of EmergencyContact."""
         contact = EmergencyContact()
         contact.id = "totally-fake-id-1"
         contact.syskey = 0
@@ -141,8 +154,7 @@ class EmergencyContactsTest(TestCase):
 
     @mock.patch.object(EmergencyContacts, "_put_resource")
     def test_update_contacts(self, mock_update):
-        """Test updating emergency contacts for a user.
-        """
+        """Test updating emergency contacts for a user."""
         response = MockHTTP()
         response.status = 200
         mock_update.return_value = response
@@ -169,8 +181,7 @@ class EmergencyContactsTest(TestCase):
         )
 
     def test_empty_contact(self):
-        """Test the is_empty method of EmergencyContact.
-        """
+        """Test the is_empty method of EmergencyContact."""
         string_data = (
             '{"id": "totally-fake-id-2", '
             '"syskey": 12345, '
