@@ -2,13 +2,16 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import datetime
+from zoneinfo import ZoneInfo
 
 from restclients_core import models
 
+SPS_TIMEZONE = ZoneInfo("America/Los_Angeles")
+
 
 class EmergencyContact(models.Model):
-    """Model for Emergency Contact information
-    """
+    """Model for Emergency Contact information"""
+
     id = models.CharField(max_length=255)
     syskey = models.CharField(max_length=9)
     name = models.CharField(max_length=150)
@@ -18,8 +21,7 @@ class EmergencyContact(models.Model):
     last_modified = models.DateTimeField(null=True)
 
     def __init__(self, *args, **kwargs):
-        """Initialize EmergencyContact from data dictionary
-        """
+        """Initialize EmergencyContact from data dictionary"""
         data = kwargs.get("data")
         if data is None:
             return super().__init__(*args, **kwargs)
@@ -31,8 +33,8 @@ class EmergencyContact(models.Model):
         self.email = data["email"]
         self.relationship = data["relationship"]
         try:
-            self.last_modified = datetime.datetime.utcfromtimestamp(
-                data["lastModified"]  # camelCase from API
+            self.last_modified = datetime.datetime.fromtimestamp(
+                data["lastModified"], tz=SPS_TIMEZONE  # camelCase from API
             )
         except Exception:
             self.last_modified = None
@@ -47,8 +49,7 @@ class EmergencyContact(models.Model):
         return empty
 
     def json_data(self):
-        """Return EmergencyContact data as dictionary
-        """
+        """Return EmergencyContact data as dictionary"""
         return {
             "id": self.id,
             "syskey": self.syskey,
@@ -64,8 +65,7 @@ class EmergencyContact(models.Model):
         }
 
     def put_data(self):
-        """Return EmergencyContact data for PUT request
-        """
+        """Return EmergencyContact data for PUT request"""
         data = {
             "syskey": self.syskey,
             "name": self.name,
@@ -80,8 +80,8 @@ class EmergencyContact(models.Model):
 
 
 class FamilyContact(models.Model):
-    """Model for Family Contact information
-    """
+    """Model for Family Contact information"""
+
     name = models.CharField(max_length=150)
     address_line_1 = models.CharField(max_length=255)
     address_line_2 = models.CharField(max_length=255)
@@ -94,8 +94,7 @@ class FamilyContact(models.Model):
     postal_cd = models.CharField(max_length=20)
 
     def __init__(self, *args, **kwargs):
-        """Initialize FamilyContact from data dictionary
-        """
+        """Initialize FamilyContact from data dictionary"""
         data = kwargs.get("data")
         if data is None:
             return super().__init__(*args, **kwargs)
@@ -116,8 +115,7 @@ class FamilyContact(models.Model):
         self.postal_cd = kwargs["data"]["parent_address"]["postal_cd"]
 
     def json_data(self):
-        """Return FamilyContact data as dictionary
-        """
+        """Return FamilyContact data as dictionary"""
         return {
             "name": self.name,
             "address_line_1": self.address_line_1,
