@@ -55,7 +55,7 @@ class EmergencyContacts(object):
         except DataFailureException as err:
             if err.status == 0:
                 # Force creation of a new connection pool
-                LiveDAO.pools[self.dao.service_name()] = None
+                del LiveDAO.pools[self.dao.service_name()]
             raise
 
     def get_contacts(self, syskey):
@@ -146,7 +146,7 @@ class EmergencyContacts(object):
         except DataFailureException as err:
             if err.status == 0:
                 # Force creation of a new connection pool
-                LiveDAO.pools[self.dao.service_name()] = None
+                del LiveDAO.pools[self.dao.service_name()]
             raise
 
 
