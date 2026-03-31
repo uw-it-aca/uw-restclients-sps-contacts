@@ -149,6 +149,7 @@ class EmergencyContacts(object):
                 LiveDAO.pools[self.dao.service_name()] = None
             raise
 
+
 class FamilyContacts(object):
     """Interface for interacting with Family Contacts Web Service.
     """
