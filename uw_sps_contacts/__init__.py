@@ -53,7 +53,10 @@ class EmergencyContacts(object):
                 self._get_contacts_url(syskey), {"Accept": "application/json"}
             )
         except DataFailureException as err:
-            logging.info(f"DataFailureException in _get_resource: {err.status} - {err.msg}")
+            logging.info(
+                f"DataFailureException in _get_resource: {err.status} - \
+                  {err.msg}"
+            )
             if err.status == 0:
                 # Force creation of a new connection pool
                 del LiveDAO.pools[self.dao.service_name()]
@@ -154,6 +157,7 @@ class EmergencyContacts(object):
 class FamilyContacts(object):
     """Interface for interacting with Family Contacts Web Service.
     """
+
     def __init__(self, act_as=None):
         """Creates a new FamilyContacts interface object.
         Args:
