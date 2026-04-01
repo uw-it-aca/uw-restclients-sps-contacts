@@ -15,6 +15,8 @@ from restclients_core.exceptions import DataFailureException
 from uw_sps_contacts.dao import Contacts_DAO
 from uw_sps_contacts.models import EmergencyContact, FamilyContact
 
+logger = logging.getLogger(__name__)
+
 
 class EmergencyContacts(object):
     """Interface for interacting with Emergency Contacts Web Service.
@@ -53,8 +55,8 @@ class EmergencyContacts(object):
                 self._get_contacts_url(syskey), {"Accept": "application/json"}
             )
         except DataFailureException as err:
-            logging.info(
-                f"DataFailureException in _get_resource: {err.status} - \
+            logger.info(
+                f"GET DataFailureException in _get_resource: {err.status} - \
                   {err.msg}"
             )
             if err.status == 0:
@@ -148,6 +150,10 @@ class EmergencyContacts(object):
         try:
             return self.dao.putURL(url, headers, body)
         except DataFailureException as err:
+            logger.info(
+                f"PUT DataFailureException in _get_resource: {err.status} - \
+                  {err.msg}"
+            )
             if err.status == 0:
                 # Force creation of a new connection pool
                 del LiveDAO.pools[self.dao.service_name()]
