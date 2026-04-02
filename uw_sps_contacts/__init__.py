@@ -8,7 +8,6 @@ This is the interface for interacting with the Student Contacts Web Service.
 import json
 import logging
 
-from restclients_core.dao import LiveDAO
 from restclients_core.util.retry import retry
 from restclients_core.exceptions import DataFailureException
 
@@ -36,7 +35,7 @@ class EmergencyContacts(object):
         """
         return f"/contacts/v1/emergencyContacts/{syskey}"
 
-    @retry(DataFailureException, tries=1, delay=0.1, status_codes=[0])
+    @retry(DataFailureException, tries=2, delay=1, status_codes=[0])
     def _get_resource(self, syskey, clear_cached_token=False):
         """Retrieves the emergency contacts resource.
         Args:
@@ -54,8 +53,7 @@ class EmergencyContacts(object):
             )
         except DataFailureException as err:
             if err.status == 0:
-                # Force creation of a new connection pool
-                del LiveDAO.pools[self.dao.service_name()]
+                self.dao._reset_pool()
             raise
 
     def get_contacts(self, syskey):
@@ -123,7 +121,7 @@ class EmergencyContacts(object):
 
         return data
 
-    @retry(DataFailureException, tries=1, delay=0.1, status_codes=[0])
+    @retry(DataFailureException, tries=2, delay=1, status_codes=[0])
     def _put_resource(self, url, body={}, clear_cached_token=False):
         """Sends a PUT request to update emergency contacts.
         Args:
@@ -145,8 +143,7 @@ class EmergencyContacts(object):
             return self.dao.putURL(url, headers, body)
         except DataFailureException as err:
             if err.status == 0:
-                # Force creation of a new connection pool
-                del LiveDAO.pools[self.dao.service_name()]
+                self.dao._reset_pool()
             raise
 
 
