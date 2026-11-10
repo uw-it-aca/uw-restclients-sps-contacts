@@ -8,14 +8,14 @@ This is the interface for interacting with the Student Contacts Web Service.
 import json
 import logging
 
-from restclients_core.util.retry import retry
 from restclients_core.exceptions import DataFailureException
+from restclients_core.util.retry import retry
 
 from uw_sps_contacts.dao import Contacts_DAO
 from uw_sps_contacts.models import EmergencyContact, FamilyContact
 
 
-class EmergencyContacts(object):
+class EmergencyContacts:
     """Interface for interacting with Emergency Contacts Web Service.
     """
 
@@ -147,7 +147,7 @@ class EmergencyContacts(object):
             raise
 
 
-class FamilyContacts(object):
+class FamilyContacts:
     """Interface for interacting with Family Contacts Web Service.
     """
     def __init__(self, act_as=None):

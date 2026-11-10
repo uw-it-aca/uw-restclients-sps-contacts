@@ -88,7 +88,7 @@ class Contacts_DAO(DAO):
     """
     def __init__(self):
         self.auth_dao = Contacts_Auth_DAO()
-        return super().__init__()
+        super().__init__()
 
     def service_name(self):
         """ Returns the service name for SPS Contacts API
