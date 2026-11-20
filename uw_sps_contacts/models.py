@@ -36,7 +36,7 @@ class EmergencyContact(models.Model):
                 self.last_modified = datetime.datetime.fromtimestamp(
                     data["lastModified"], tz=SPS_TIMEZONE  # camelCase from API
                 )
-            except Exception:
+            except TypeError:
                 self.last_modified = None
 
     def is_empty(self):
