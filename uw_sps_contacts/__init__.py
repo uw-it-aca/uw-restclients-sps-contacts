@@ -122,7 +122,7 @@ class EmergencyContacts:
         return data
 
     @retry(DataFailureException, tries=2, delay=1, status_codes=[0])
-    def _put_resource(self, url, body={}, clear_cached_token=False):
+    def _put_resource(self, url, body=None, clear_cached_token=False):
         """Sends a PUT request to update emergency contacts.
         Args:
             url: URL for the emergency contacts resource
@@ -131,6 +131,8 @@ class EmergencyContacts:
         Returns:
             HTTP response from the web service
         """
+        if body is None:
+            body = {}
         if clear_cached_token:
             self.dao.clear_access_token()
 
