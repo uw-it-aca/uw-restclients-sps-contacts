@@ -6,7 +6,6 @@ This is the interface for interacting with the Student Contacts Web Service.
 """
 
 import json
-import logging
 
 from restclients_core.exceptions import DataFailureException
 from restclients_core.util.retry import retry
