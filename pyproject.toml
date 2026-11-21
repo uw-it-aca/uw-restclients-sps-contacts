@@ -22,8 +22,8 @@ dependencies = [
     "uw-restclients-core>=1.0,<2.0",
 ]
 
-[project.urls]
-Homepage = "https://github.com/uw-it-aca/student-personal"
+#[project.urls]
+#Homepage = "https://github.com/uw-it-aca/uw-restclients-sps-contacts"
 
 [project.optional-dependencies]
 dev = [
@@ -31,7 +31,7 @@ dev = [
 ]
 
 [tool.setuptools]
-packages = ["student_personal"]
+packages = ["uw_sps_contacts"]
 include-package-data = true
 
 [tool.ruff]
@@ -53,5 +53,4 @@ omit = [
 [tool.coverage.paths]
 source = [
     "uw_sps_contacts",
-    "/app/lib/python3.12/site-packages/uw_sps_contacts/"
 ]
