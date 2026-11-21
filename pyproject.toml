@@ -7,7 +7,6 @@ name = "uw-restclients-sps-contacts"
 dynamic = ["version"]
 description = "A library for interacting with student contact information in SPS."
 readme = "README.md"
-python-requires = ">=3.10"
 license = "Apache-2.0"
 authors = [
     {name = "UWIT Student & Educational Technology Services", email = "aca-it@uw.edu"}
