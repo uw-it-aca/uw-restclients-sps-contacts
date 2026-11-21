@@ -34,9 +34,6 @@ dev = [
 packages = ["student_personal"]
 include-package-data = true
 
-[tool.setuptools.dynamic]
-version = {file = "student_personal/VERSION"}
-
 [tool.ruff]
 line-length = 88
 exclude = [
