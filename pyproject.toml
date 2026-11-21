@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "uw-restclients-sps-contacts"
+dynamic = ["version"]
+description = "A library for interacting with student contact information in SPS."
+readme = "README.md"
+license = "Apache-2.0"
+authors = [
+    {name = "UWIT Student & Educational Technology Services", email = "aca-it@uw.edu"}
+]
+classifiers = [
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+]
+dependencies = [
+    "uw-restclients-core>=1.0,<2.0",
+]
+
+#[project.urls]
+#Homepage = "https://github.com/uw-it-aca/uw-restclients-sps-contacts"
+
+[project.optional-dependencies]
+dev = [
+    "ruff",
+]
+
+[tool.setuptools]
+packages = ["uw_sps_contacts"]
+include-package-data = true
+
+[tool.ruff]
+line-length = 88
+exclude = [
+]
+
+[tool.ruff.lint]
+ignore = [
+]
+
+[tool.coverage.run]
+source = ["uw_sps_contacts"]
+parallel = true
+omit = [
+     "uw_sps_contacts/tests/*"
+]
+
+[tool.coverage.paths]
+source = [
+    "uw_sps_contacts",
+]

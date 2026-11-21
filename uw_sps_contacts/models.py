@@ -24,20 +24,20 @@ class EmergencyContact(models.Model):
         """Initialize EmergencyContact from data dictionary"""
         data = kwargs.get("data")
         if data is None:
-            return super().__init__(*args, **kwargs)
-
-        self.id = data["id"]
-        self.syskey = data["syskey"]
-        self.name = data["name"]
-        self.phone_number = data["phoneNumber"]  # camelCase from API
-        self.email = data["email"]
-        self.relationship = data["relationship"]
-        try:
-            self.last_modified = datetime.datetime.fromtimestamp(
-                data["lastModified"], tz=SPS_TIMEZONE  # camelCase from API
-            )
-        except Exception:
-            self.last_modified = None
+            super().__init__(*args, **kwargs)
+        else:
+            self.id = data["id"]
+            self.syskey = data["syskey"]
+            self.name = data["name"]
+            self.phone_number = data["phoneNumber"]  # camelCase from API
+            self.email = data["email"]
+            self.relationship = data["relationship"]
+            try:
+                self.last_modified = datetime.datetime.fromtimestamp(
+                    data["lastModified"], tz=SPS_TIMEZONE  # camelCase from API
+                )
+            except TypeError:
+                self.last_modified = None
 
     def is_empty(self):
         empty = (
@@ -97,22 +97,22 @@ class FamilyContact(models.Model):
         """Initialize FamilyContact from data dictionary"""
         data = kwargs.get("data")
         if data is None:
-            return super().__init__(*args, **kwargs)
-
-        self.name = kwargs["data"]["parent_name"]
-        self.address_line_1 = kwargs["data"]["parent_address"]["line_1"]
-        self.address_line_2 = kwargs["data"]["parent_address"]["line_2"]
-        self.city = kwargs["data"]["parent_address"]["city"]
-        self.state = kwargs["data"]["parent_address"]["state"]
-        self.zip_5 = kwargs["data"]["parent_address"]["zip_5"]
-        self.zip_filler_b = kwargs["data"]["parent_address"]["zip_filler_b"]
-        self.phone_number = (
-            kwargs["data"]["parent_address"]["phone_area"]
-            + kwargs["data"]["parent_address"]["phone_prefix"]
-            + kwargs["data"]["parent_address"]["phone_suffix"]
-        )
-        self.country = kwargs["data"]["parent_address"]["country"]
-        self.postal_cd = kwargs["data"]["parent_address"]["postal_cd"]
+            super().__init__(*args, **kwargs)
+        else:
+            self.name = kwargs["data"]["parent_name"]
+            self.address_line_1 = kwargs["data"]["parent_address"]["line_1"]
+            self.address_line_2 = kwargs["data"]["parent_address"]["line_2"]
+            self.city = kwargs["data"]["parent_address"]["city"]
+            self.state = kwargs["data"]["parent_address"]["state"]
+            self.zip_5 = kwargs["data"]["parent_address"]["zip_5"]
+            self.zip_filler_b = kwargs["data"]["parent_address"]["zip_filler_b"]
+            self.phone_number = (
+                kwargs["data"]["parent_address"]["phone_area"]
+                + kwargs["data"]["parent_address"]["phone_prefix"]
+                + kwargs["data"]["parent_address"]["phone_suffix"]
+            )
+            self.country = kwargs["data"]["parent_address"]["country"]
+            self.postal_cd = kwargs["data"]["parent_address"]["postal_cd"]
 
     def json_data(self):
         """Return FamilyContact data as dictionary"""
