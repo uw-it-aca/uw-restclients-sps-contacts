@@ -1,4 +1,0 @@
-[run]
-branch = True
-source = uw_sps_contacts
-include = uw_sps_contacts/*
