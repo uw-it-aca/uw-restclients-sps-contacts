@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "UW-RestClients-SPS-Contacts"
+dynamic = ["version"]
+description = "A client for connecting to the UW student contact services"
+readme = "README.md"
+license = "Apache-2.0"
+authors = [
+    {name = "UWIT Student & Educational Technology Services", email = "aca-it@uw.edu"}
+]
+requires-python = ">=3.10"
+dependencies = [
+    "uw-restclients-core",
+]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+]
+
+[project.urls]
+Homepage = "https://github.com/uw-it-aca/uw-restclients-sps-contacts"
+
+[tool.setuptools]
+packages = ["uw_sps_contacts"]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = {file = "uw_sps_contacts/VERSION"}
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.format]
+indent-style = "space"
+
+[tool.ruff.lint]
+ignore = [
+    "BLE001",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["uw_sps_contacts"]
+include = ["uw_sps_contacts/*"]

@@ -88,7 +88,7 @@ class Contacts_DAO(DAO):
     """
     def __init__(self):
         self.auth_dao = Contacts_Auth_DAO()
-        return super().__init__()
+        super().__init__()
 
     def service_name(self):
         """ Returns the service name for SPS Contacts API
@@ -111,13 +111,6 @@ class Contacts_DAO(DAO):
 
         headers["Authorization"] = f"Bearer {token}"
         return headers
-
-    def _reset_pool(self):
-        backend = self.get_implementation()
-        if backend.is_live():
-            service = self.service_name()
-            pool = backend.create_pool()
-            backend.__class__.pools[service] = pool
 
     def clear_access_token(self):
         self.auth_dao.clear_token_from_cache()

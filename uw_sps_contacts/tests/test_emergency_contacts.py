@@ -3,10 +3,9 @@
 
 import datetime
 import json
-from unittest import TestCase
+from unittest import TestCase, mock
 from zoneinfo import ZoneInfo
 
-import mock
 from restclients_core.exceptions import DataFailureException
 from restclients_core.models import MockHTTP
 
