@@ -6,7 +6,6 @@ This is the interface for interacting with the Student Contacts Web Service.
 """
 
 import json
-import logging
 
 from restclients_core.exceptions import DataFailureException
 
@@ -14,7 +13,7 @@ from uw_sps_contacts.dao import Contacts_DAO
 from uw_sps_contacts.models import EmergencyContact, FamilyContact
 
 
-class EmergencyContacts(object):
+class EmergencyContacts:
     """Interface for interacting with Emergency Contacts Web Service.
     """
 
@@ -113,7 +112,7 @@ class EmergencyContacts(object):
 
         return data
 
-    def _put_resource(self, url, body={}, clear_cached_token=False):
+    def _put_resource(self, url, body=None, clear_cached_token=False):
         """Sends a PUT request to update emergency contacts.
         Args:
             url: URL for the emergency contacts resource
@@ -122,6 +121,9 @@ class EmergencyContacts(object):
         Returns:
             HTTP response from the web service
         """
+        if body is None:
+            body = {}
+
         if clear_cached_token:
             self.dao.clear_access_token()
 
@@ -133,7 +135,7 @@ class EmergencyContacts(object):
         return self.dao.putURL(url, headers, body)
 
 
-class FamilyContacts(object):
+class FamilyContacts:
     """Interface for interacting with Family Contacts Web Service.
     """
     def __init__(self, act_as=None):

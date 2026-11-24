@@ -24,7 +24,8 @@ class EmergencyContact(models.Model):
         """Initialize EmergencyContact from data dictionary"""
         data = kwargs.get("data")
         if data is None:
-            return super().__init__(*args, **kwargs)
+            super().__init__(*args, **kwargs)
+            return
 
         self.id = data["id"]
         self.syskey = data["syskey"]
@@ -97,7 +98,8 @@ class FamilyContact(models.Model):
         """Initialize FamilyContact from data dictionary"""
         data = kwargs.get("data")
         if data is None:
-            return super().__init__(*args, **kwargs)
+            super().__init__(*args, **kwargs)
+            return
 
         self.name = kwargs["data"]["parent_name"]
         self.address_line_1 = kwargs["data"]["parent_address"]["line_1"]

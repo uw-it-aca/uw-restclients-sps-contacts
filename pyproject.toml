@@ -39,6 +39,7 @@ indent-style = "space"
 
 [tool.ruff.lint]
 ignore = [
+    "BLE001",
 ]
 
 [tool.coverage.run]

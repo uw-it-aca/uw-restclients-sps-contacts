@@ -1,9 +1,8 @@
 # Copyright 2026 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
-from unittest import TestCase, skip
+from unittest import TestCase, mock
 
-import mock
 from commonconf import override_settings
 from restclients_core.exceptions import DataFailureException
 from restclients_core.models import MockHTTP
