@@ -8,7 +8,6 @@ This is the interface for interacting with the Student Contacts Web Service.
 import json
 import logging
 
-from restclients_core.util.retry import retry
 from restclients_core.exceptions import DataFailureException
 
 from uw_sps_contacts.dao import Contacts_DAO
@@ -35,7 +34,6 @@ class EmergencyContacts(object):
         """
         return f"/contacts/v1/emergencyContacts/{syskey}"
 
-    @retry(DataFailureException, tries=2, delay=1, status_codes=[0])
     def _get_resource(self, syskey, clear_cached_token=False):
         """Retrieves the emergency contacts resource.
         Args:
@@ -47,14 +45,8 @@ class EmergencyContacts(object):
         if clear_cached_token:
             self.dao.clear_access_token()
 
-        try:
-            return self.dao.getURL(
-                self._get_contacts_url(syskey), {"Accept": "application/json"}
-            )
-        except DataFailureException as err:
-            if err.status == 0:
-                self.dao._reset_pool()
-            raise
+        return self.dao.getURL(
+            self._get_contacts_url(syskey), {"Accept": "application/json"})
 
     def get_contacts(self, syskey):
         """Retrieves emergency contacts for a student.
@@ -121,7 +113,6 @@ class EmergencyContacts(object):
 
         return data
 
-    @retry(DataFailureException, tries=2, delay=1, status_codes=[0])
     def _put_resource(self, url, body={}, clear_cached_token=False):
         """Sends a PUT request to update emergency contacts.
         Args:
@@ -139,12 +130,7 @@ class EmergencyContacts(object):
             "Accept": "application/json",
             "Connection": "keep-alive",
         }
-        try:
-            return self.dao.putURL(url, headers, body)
-        except DataFailureException as err:
-            if err.status == 0:
-                self.dao._reset_pool()
-            raise
+        return self.dao.putURL(url, headers, body)
 
 
 class FamilyContacts(object):
